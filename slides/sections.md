@@ -194,7 +194,7 @@
   </ul>
 </div>
 <div class="callout">
-  <p><strong>優先度の式</strong></p>
+  <p><strong>テスト実装の優先度の式</strong></p>
   <p class="subtle">変更頻度 × 影響度</p>
 </div>
 <img class="corner-image-badge" src="assets/dev-flow.svg" alt="開発の流れの要約" />
