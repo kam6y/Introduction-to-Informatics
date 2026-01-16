@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,133 +22,35 @@
         <section class="layout-title">
           <span class="badge">Practical Track</span>
           <h1>Introduction to Informatics</h1>
-          <p class="subtitle">Lecture 01 | From problems to systems</p>
+          <p class="subtitle">Enjoying Coding</p>
           <p class="subtle">90 slides / 180 minutes</p>
         </section>
 
         <section>
           <h2>Agenda</h2>
           <ul>
-            <li>Why informatics matters in practice</li>
-            <li>Key models: data, algorithm, system</li>
-            <li>Case study: lifecycle of an online service</li>
-            <li>Workshop: diagram the flow</li>
+            <li>Foundations</li>
+            <li>Git / GitHub</li>
+            <li>Testing & Observability</li>
+            <li>Docker</li>
+            <li>Web Apps & Cloud</li>
+            <li>CI/CD</li>
+            <li>Database Basics</li>
+            <li>Streamlit</li>
+            <li>Generative AI Fundamentals</li>
+            <li>Generative AI in Practice</li>
           </ul>
         </section>
 
-        <section class="layout-section">
-          <h2>Part 1</h2>
-          <p class="subtitle">From real-world problems to information flow</p>
-        </section>
-
-        <section class="layout-2col">
-          <div>
-            <h2>What makes a system reliable?</h2>
-            <p>Focus on feedback loops, observability, and ownership.</p>
-            <ul>
-              <li>Measure before you optimize</li>
-              <li>Design for failure states</li>
-              <li>Make bottlenecks visible</li>
-            </ul>
-          </div>
-          <div class="callout">
-            <p class="stat">99.9%</p>
-            <p class="subtle">Target uptime for client-facing systems</p>
-          </div>
-        </section>
-
-        <section class="layout-3col">
-          <div class="callout">
-            <h3>Data</h3>
-            <p>Structure, access patterns, and governance.</p>
-          </div>
-          <div class="callout">
-            <h3>Process</h3>
-            <p>Algorithms, flows, and orchestration.</p>
-          </div>
-          <div class="callout">
-            <h3>People</h3>
-            <p>Roles, handoffs, and accountability.</p>
-          </div>
-        </section>
-
-        <section class="layout-image-left">
-          <div class="media-box">Diagram / screenshot</div>
-          <div>
-            <h2>Example service pipeline</h2>
-            <p>Use a single diagram to explain how data moves.</p>
-            <ul>
-              <li>Capture</li>
-              <li>Transform</li>
-              <li>Store</li>
-              <li>Deliver</li>
-            </ul>
-          </div>
-        </section>
-
-        <section class="layout-code">
-          <h2>Readable pseudo-code</h2>
-          <pre><code class="language-python">def validate_request(payload):
-    if not payload.get("user_id"):
-        return "missing user_id"
-    if payload["amount"] &lt;= 0:
-        return "amount must be positive"
-    return "ok"</code></pre>
-          <div class="callout">
-            <p><strong>Tip:</strong> keep code blocks under 12 lines.</p>
-          </div>
-        </section>
-
-        <section class="layout-table">
-          <h2>Design options</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Option</th>
-                <th>Strength</th>
-                <th>Trade-off</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Monolith</td>
-                <td>Fast iteration</td>
-                <td>Scaling risk</td>
-              </tr>
-              <tr>
-                <td>Modular</td>
-                <td>Clear ownership</td>
-                <td>Coordination cost</td>
-              </tr>
-              <tr>
-                <td>Distributed</td>
-                <td>Resilient</td>
-                <td>Complexity</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section class="layout-quote">
-          <blockquote>
-            "Good systems design makes the next decision easier."
-          </blockquote>
-          <p class="subtle">- Design principle</p>
-        </section>
-
         <section
-          class="layout-full-bleed"
-          data-background-gradient="linear-gradient(120deg, rgba(61,214,167,0.2), rgba(110,168,255,0.2))"
-        >
-          <div class="overlay">
-            <h2>Workshop</h2>
-            <p>Sketch the flow for a reservation system in 15 minutes.</p>
-          </div>
-        </section>
+          data-markdown="slides/sections.md"
+          data-separator="^---$"
+        ></section>
       </div>
     </div>
 
     <script src="https://unpkg.com/reveal.js@5/dist/reveal.js"></script>
+    <script src="https://unpkg.com/reveal.js@5/plugin/markdown/markdown.js"></script>
     <script src="https://unpkg.com/reveal.js@5/plugin/notes/notes.js"></script>
     <script src="https://unpkg.com/reveal.js@5/plugin/highlight/highlight.js"></script>
     <script>
@@ -160,7 +62,7 @@
         margin: 0.08,
         transition: "slide",
         backgroundTransition: "fade",
-        plugins: [RevealNotes, RevealHighlight],
+        plugins: [RevealMarkdown, RevealNotes, RevealHighlight],
       });
     </script>
   </body>
