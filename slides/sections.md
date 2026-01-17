@@ -706,6 +706,277 @@
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Web Apps &amp; Cloudの学習目標</h2>
+  <ul>
+    <li>3層構成（プレゼンテーション/アプリケーション/データ）を説明できる</li>
+    <li>REST APIの基本（HTTPメソッド・エンドポイント）を理解できる</li>
+    <li>クラウドの責任共有モデル（IaaS/PaaS/SaaS）を区別できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>キーワード</strong></p>
+  <ul>
+    <li>3層構成</li>
+    <li>API設計</li>
+    <li>クラウド運用</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Webアプリ開発の課題を整理する</h2>
+  <ul>
+    <li>ユーザーにどう画面を届けるか</li>
+    <li>ビジネスロジックをどこで処理するか</li>
+    <li>データをどう永続化・保護するか</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p>責務を分けることでスケール・保守性が上がる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>クライアント/サーバーモデル</h2>
+  <ul>
+    <li>ブラウザ（クライアント）がリクエストを送る</li>
+    <li>サーバーが処理してレスポンスを返す</li>
+    <li>役割を分けることで並行開発が可能に</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="client-server" aria-label="クライアントとサーバーの関係図"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>3層構成で責務を分ける</h2>
+  <ul>
+    <li>プレゼンテーション層（UI/UX）</li>
+    <li>アプリケーション層（ビジネスロジック）</li>
+    <li>データ層（永続化・DB）</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="three-tier" aria-label="3層アーキテクチャ図"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>フロントエンドの役割</h2>
+  <ul>
+    <li>ユーザーが触れる部分を担当</li>
+    <li>HTML/CSS/JavaScriptで構築</li>
+    <li>状態管理・バリデーション・表示最適化</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>代表的技術</strong></p>
+  <p>React / Vue / Next.js</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>バックエンドの役割</h2>
+  <ul>
+    <li>ビジネスロジックを実行</li>
+    <li>DBアクセス・外部API連携</li>
+    <li>認証・認可のゲートキーパー</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>代表的技術</strong></p>
+  <p>Node.js / Python / Go / Java</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>APIでフロントとバックを繋ぐ</h2>
+  <ul>
+    <li>API = アプリケーション間の「契約」</li>
+    <li>フロントエンドがバックエンドを呼び出す窓口</li>
+    <li>疎結合で独立した開発・デプロイが可能</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="api-flow" aria-label="フロントとバックの接続図"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>REST APIの基本</h2>
+  <ul>
+    <li>HTTPメソッドで操作を表現（GET/POST/PUT/DELETE）</li>
+    <li>エンドポイント = リソースのURL</li>
+    <li>JSONでデータをやりとり</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <ul>
+    <li>GET /users/123 → ユーザー取得</li>
+    <li>POST /users → 新規作成</li>
+    <li>PUT /users/123 → ユーザー更新</li>
+    <li>DELETE /users/123 → ユーザー削除</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>REST APIとHTTP APIの違い</h2>
+  <ul>
+    <li>HTTP API: HTTPを使うAPI全般（設計は自由）</li>
+    <li>REST API: RESTの原則に従ったAPI（リソース指向・ステートレス）</li>
+    <li>同じHTTPでもURL設計の思想が違う</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <p>REST: /users/123 に GET/PUT/DELETE を割り当てる</p>
+  <p>HTTP API: /getUser /updateUser などアクション名で呼ぶ</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ステートレスとセッション管理</h2>
+  <ul>
+    <li>サーバーは「状態を持たない」が原則</li>
+    <li>リクエストごとに認証情報を送る</li>
+    <li>JWT（トークン）やCookieで認証を継続</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p>ステートレス → スケールしやすい</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>オンプレミスからクラウドへ</h2>
+  <ul>
+    <li>オンプレミス: 自社で全て管理（HW/OS/ミドルウェア/アプリ）</li>
+    <li>クラウド: 必要な部分だけ借りる</li>
+    <li>初期投資を抑え、スケールが容易に</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>現場の変化</strong></p>
+  <p>所有 → 利用へ</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>クラウドの責任共有モデル</h2>
+  <ul>
+    <li>IaaS: インフラだけ借りる（OS以上は自己管理）</li>
+    <li>PaaS: ランタイムまで提供（アプリに集中）</li>
+    <li>SaaS: 全て提供（設定だけで利用）</li>
+  </ul>
+</div>
+<div class="diagram">
+  <img
+    src="assets/SaaS_dictionary01_@CON.png"
+    alt="IaaS/PaaS/SaaSの責任共有モデル"
+    style="width: 100%; height: 100%; object-fit: contain;"
+  />
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>マネージドサービスで運用負荷を下げる</h2>
+  <ul>
+    <li>DBやキュー、ストレージをクラウドに任せる</li>
+    <li>パッチ適用・スケール・バックアップが自動</li>
+    <li>開発者はアプリ開発に集中できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <p>RDS / Cloud SQL / S3 / Cloud Storage</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ミニケース：ECサイトの構成例</h2>
+  <ul>
+    <li>フロント: Next.js（Vercel / AWS Amplify）</li>
+    <li>API: Node.js（Cloud Run / App Runner / AWS Lambda + API Gateway）</li>
+    <li>DB: PostgreSQL（Cloud SQL / RDS / Aurora）</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p>責任分界を意識して選定する</p>
+</div>
+
+---
+
+<div class="layout-2col layout-2col-wide">
+  <div>
+    <h2>実際のECサイト例</h2>
+    <ul>
+      <li>CloudFrontで静的配信を高速化</li>
+      <li>Application Load Balancerが入口のルーティング</li>
+      <li>AWS Fargateでアプリを実行</li>
+      <li>Amazon Auroraで受注・会員データを保管</li>
+      <li>ElastiCacheでキャッシュを高速化</li>
+      <li>S3で画像・静的アセットを保存</li>
+      <li>SQSで非同期処理、CloudWatch Logsで監視</li>
+    </ul>
+    <p class="subtle">
+      参考: <a href="https://aws.amazon.com/jp/solutions/case-studies/basefood-case-study/">Basefood Case Study</a>
+    </p>
+  </div>
+  <img
+    class="media-box"
+    src="assets/c2baa9090a0892dce64e27f040df49cf-basefood-aws-architecture-diagram-japanese-1500x1297.d678afcf532d0956016a0ec8f56b24cff32ed602.jpg"
+    alt="ECサイトのAWSアーキテクチャ例"
+    style="width: 100%; height: 100%; object-fit: contain;"
+  />
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>理解度チェック</h2>
+  <ul>
+    <li>3層構成の各層の役割を説明できる</li>
+    <li>REST APIのHTTPメソッド4つを挙げられる</li>
+    <li>IaaS/PaaS/SaaSの違いを一言で言える</li>
+    <li>ステートレスのメリットを説明できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Database Basicsに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Database Basics
 <p class="subtitle">RDB/NoSQL・スキーマ設計・インデックス/トランザクション</p>

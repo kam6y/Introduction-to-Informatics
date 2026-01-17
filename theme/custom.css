@@ -216,6 +216,10 @@ body::before {
   gap: var(--col-gap);
 }
 
+.layout-2col-wide {
+  grid-template-columns: 0.34fr 0.66fr;
+}
+
 .media-box {
   height: 320px;
   border-radius: 18px;

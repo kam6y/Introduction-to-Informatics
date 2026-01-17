@@ -553,6 +553,163 @@
         });
       };
 
+      const renderClientServer = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "クライアントとサーバーの関係");
+        const box = { w: 220, h: 90, y: 120 };
+        const gap = 160;
+        const x1 = (DIAGRAM_SIZE.width - box.w * 2 - gap) / 2;
+        const x2 = x1 + box.w + gap;
+
+        drawBox(svg, colors, { x: x1, y: box.y, w: box.w, h: box.h, label: "クライアント", sub: "ブラウザ" });
+        drawBox(svg, colors, { x: x2, y: box.y, w: box.w, h: box.h, label: "サーバー", sub: "処理/データ" });
+
+        const midY = box.y + box.h / 2;
+        drawArrow(svg, colors, {
+          x1: x1 + box.w,
+          y1: midY - 18,
+          x2,
+          y2: midY - 18,
+          label: "リクエスト",
+          markerId,
+        });
+        drawArrow(svg, colors, {
+          x1: x2,
+          y1: midY + 18,
+          x2: x1 + box.w,
+          y2: midY + 18,
+          label: "レスポンス",
+          markerId,
+        });
+      };
+
+      const renderThreeTier = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "3層アーキテクチャ");
+        const layers = [
+          { label: "プレゼンテーション層", sub: "UI/UX" },
+          { label: "アプリケーション層", sub: "ビジネスロジック" },
+          { label: "データ層", sub: "永続化/DB" },
+        ];
+        const box = { w: 360, h: 70 };
+        const gap = 18;
+        const totalHeight = layers.length * box.h + (layers.length - 1) * gap;
+        const startY = (DIAGRAM_SIZE.height - totalHeight) / 2;
+        const x = (DIAGRAM_SIZE.width - box.w) / 2;
+        const boxes = [];
+
+        layers.forEach((layer, index) => {
+          const y = startY + index * (box.h + gap);
+          drawBox(svg, colors, { x, y, w: box.w, h: box.h, label: layer.label, sub: layer.sub });
+          boxes.push({ y });
+        });
+
+        boxes.forEach((item, index) => {
+          if (index === boxes.length - 1) return;
+          drawArrow(svg, colors, {
+            x1: x + box.w / 2,
+            y1: item.y + box.h,
+            x2: x + box.w / 2,
+            y2: boxes[index + 1].y,
+            markerId,
+          });
+        });
+      };
+
+      const renderApiFlow = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "フロントとバックの接続図");
+        const items = [
+          { label: "フロントエンド", sub: "UI" },
+          { label: "API", sub: "契約" },
+          { label: "バックエンド", sub: "ロジック" },
+          { label: "DB", sub: "永続化" },
+        ];
+        const box = { w: 150, h: 80, y: 120 };
+        const gap = 30;
+        const totalWidth = items.length * box.w + (items.length - 1) * gap;
+        const startX = (DIAGRAM_SIZE.width - totalWidth) / 2;
+        const boxes = [];
+
+        items.forEach((item, index) => {
+          const x = startX + index * (box.w + gap);
+          drawBox(svg, colors, { x, y: box.y, w: box.w, h: box.h, label: item.label, sub: item.sub });
+          boxes.push({ x });
+        });
+
+        boxes.forEach((item, index) => {
+          if (index === boxes.length - 1) return;
+          drawArrow(svg, colors, {
+            x1: item.x + box.w,
+            y1: box.y + box.h / 2,
+            x2: boxes[index + 1].x,
+            y2: box.y + box.h / 2,
+            markerId,
+          });
+        });
+      };
+
+      const renderCloudResponsibility = (el) => {
+        const { svg, colors } = createSvg(el, "クラウド責任共有モデル");
+        const columns = [
+          { label: "IaaS", userRatio: 0.75, userSub: "アプリ〜OS", providerSub: "インフラ" },
+          { label: "PaaS", userRatio: 0.45, userSub: "アプリ/データ", providerSub: "ランタイム〜インフラ" },
+          { label: "SaaS", userRatio: 0.28, userSub: "設定", providerSub: "すべて" },
+        ];
+        const stack = { w: 200, h: 220, y: 70 };
+        const gap = 40;
+        const totalWidth = columns.length * stack.w + (columns.length - 1) * gap;
+        const startX = (DIAGRAM_SIZE.width - totalWidth) / 2;
+
+        columns.forEach((col, index) => {
+          const x = startX + index * (stack.w + gap);
+          svg
+            .append("text")
+            .attr("x", x + stack.w / 2)
+            .attr("y", stack.y - 18)
+            .attr("text-anchor", "middle")
+            .attr("font-size", 18)
+            .attr("font-weight", 600)
+            .text(col.label);
+
+          const userH = Math.round(stack.h * col.userRatio);
+          const providerH = stack.h - userH;
+
+          drawBox(svg, colors, {
+            x,
+            y: stack.y,
+            w: stack.w,
+            h: userH,
+            label: "利用者管理",
+            sub: col.userSub,
+            fill: "rgba(37, 99, 235, 0.12)",
+            stroke: colors.accent3,
+          });
+          drawBox(svg, colors, {
+            x,
+            y: stack.y + userH,
+            w: stack.w,
+            h: providerH,
+            label: "クラウド管理",
+            sub: col.providerSub,
+            fill: "rgba(15, 118, 110, 0.12)",
+            stroke: colors.accent,
+          });
+        });
+
+        svg
+          .append("text")
+          .attr("x", startX - 12)
+          .attr("y", stack.y + 12)
+          .attr("text-anchor", "end")
+          .attr("class", "diagram-sub")
+          .text("上: アプリ");
+        svg
+          .append("text")
+          .attr("x", startX - 12)
+          .attr("y", stack.y + stack.h)
+          .attr("text-anchor", "end")
+          .attr("class", "diagram-sub")
+          .text("下: インフラ");
+      };
+
       const diagramRenderers = {
         "repo-map": renderRepoMap,
         "branch-merge": renderBranchMerge,
@@ -564,6 +721,10 @@
         "registry-flow": renderRegistryFlow,
         "tcpip-layers": renderTcpIpLayers,
         "web-flow": renderWebFlow,
+        "client-server": renderClientServer,
+        "three-tier": renderThreeTier,
+        "api-flow": renderApiFlow,
+        "cloud-responsibility": renderCloudResponsibility,
       };
 
       const renderDiagrams = (slide) => {
