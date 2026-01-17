@@ -983,6 +983,238 @@
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Database Basicsの学習目標</h2>
+  <ul>
+    <li>RDBとNoSQLの違いを説明できる</li>
+    <li>テーブル設計の基本（正規化・主キー・外部キー）を理解できる</li>
+    <li>インデックスの役割を説明できる</li>
+    <li>トランザクション（ACID）の意味を言語化できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>キーワード</strong></p>
+  <ul>
+    <li>構造化と柔軟性</li>
+    <li>検索の高速化</li>
+    <li>整合性の担保</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>データ管理の課題を整理する</h2>
+  <ul>
+    <li>大量データをどう整理・保存するか</li>
+    <li>検索・更新を速くするには</li>
+    <li>データの整合性をどう保つか</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>答え</strong></p>
+  <p>データベースで解決</p>
+  <p class="subtle">用途に応じてRDB/NoSQLを選ぶ</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>RDBで構造化データを扱う</h2>
+  <ul>
+    <li>テーブル（表）/行/列でデータを整理</li>
+    <li>スキーマ（構造）を先に定義する</li>
+    <li>SQLで操作する</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>代表的なRDB</strong></p>
+  <ul>
+    <li>PostgreSQL</li>
+    <li>MySQL</li>
+    <li>Oracle / SQL Server</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>テーブル設計の基本</h2>
+  <ul>
+    <li><strong>主キー</strong>: 行を一意に識別（例: user_id）</li>
+    <li><strong>外部キー</strong>: 他テーブルとの関連付け</li>
+    <li><strong>正規化</strong>: 重複を減らし更新異常を防ぐ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>設計のコツ</strong></p>
+  <ul>
+    <li>1テーブル1責務</li>
+    <li>NULLを減らす</li>
+    <li>命名規則を統一</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>SQLで操作する（CRUD）</h2>
+  <ul>
+    <li><strong>SELECT</strong>: データ取得</li>
+    <li><strong>INSERT</strong>: データ追加</li>
+    <li><strong>UPDATE</strong>: データ更新</li>
+    <li><strong>DELETE</strong>: データ削除</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>よく使う句</strong></p>
+  <ul>
+    <li>WHERE: 条件指定</li>
+    <li>JOIN: テーブル結合</li>
+    <li>ORDER BY / LIMIT</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>インデックスで検索を速くする</h2>
+  <ul>
+    <li>索引を作って検索を高速化</li>
+    <li>全件スキャン vs インデックススキャン</li>
+    <li>書き込み時のコストとのトレードオフ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>使いどころ</strong></p>
+  <ul>
+    <li>WHERE句で頻繁に使う列</li>
+    <li>JOINのキー列</li>
+    <li>ORDER BYの対象列</li>
+  </ul>
+  <p class="subtle">むやみに作ると更新が遅くなる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>トランザクションで整合性を守る</h2>
+  <ul>
+    <li>複数操作を1つの塊として扱う</li>
+    <li><strong>COMMIT</strong>: 確定 / <strong>ROLLBACK</strong>: 取消</li>
+    <li>途中で失敗したら全て戻る</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例: 銀行振込</strong></p>
+  <p>A口座から引き落とし → B口座へ入金</p>
+  <p class="subtle">片方だけ成功は許されない</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ACIDで信頼性を担保する</h2>
+  <ul>
+    <li><strong>Atomicity（原子性）</strong>: 全て成功 or 全て失敗</li>
+    <li><strong>Consistency（一貫性）</strong>: 制約を常に満たす</li>
+    <li><strong>Isolation（分離性）</strong>: 同時実行が干渉しない</li>
+    <li><strong>Durability（持続性）</strong>: 確定したら消えない</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p>RDBはACIDを標準で保証</p>
+  <p class="subtle">NoSQLは一部緩和することも</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>NoSQLで柔軟性を得る</h2>
+  <ul>
+    <li>スキーマレスで柔軟に保存</li>
+    <li>水平スケール（台数増加）がしやすい</li>
+    <li>用途に特化した種類がある</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>NoSQLの種類</strong></p>
+  <ul>
+    <li>ドキュメント型: MongoDB</li>
+    <li>Key-Value: Redis / DynamoDB</li>
+    <li>カラム指向: Cassandra</li>
+    <li>グラフ: Neo4j</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>RDBとNoSQLを使い分ける</h2>
+  <ul>
+    <li><strong>RDB</strong>: 整合性重視・複雑なクエリ・関係データ</li>
+    <li><strong>NoSQL</strong>: 柔軟性・大量データ・高速読み書き</li>
+    <li>要件に応じて選択、併用も一般的</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>選定の観点</strong></p>
+  <ul>
+    <li>データ構造の安定性</li>
+    <li>スケール要件</li>
+    <li>整合性 vs 可用性</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ミニケース：ECサイトのDB設計</h2>
+  <ul>
+    <li>ユーザー/商品/注文 → RDBで管理</li>
+    <li>商品検索ログ/閲覧履歴 → NoSQLで蓄積</li>
+    <li>セッション/カート → Redisでキャッシュ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p>決済は整合性重視 → RDB</p>
+  <p>ログは速度重視 → NoSQL</p>
+  <p class="subtle">適材適所で組み合わせる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Database Basics理解度チェック</h2>
+  <ul>
+    <li>RDBとNoSQLの違いを説明できる</li>
+    <li>主キー/外部キー/正規化の役割を言える</li>
+    <li>インデックスのメリット/デメリットを挙げられる</li>
+    <li>ACIDの4要素を説明できる</li>
+    <li>用途に応じたDB選択の観点を言える</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Security Basicsに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Security Basics
 <p class="subtitle">認証/認可・OWASP Top 10・セキュアコーディング</p>
