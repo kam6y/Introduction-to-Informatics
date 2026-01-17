@@ -485,7 +485,209 @@
 </div>
 <div class="callout">
   <p><strong>次の章へ</strong></p>
-  <p class="subtle">Testing & Observabilityに進む</p>
+  <p class="subtle">Networking Basicsに進む</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-section" -->
+## Networking Basics
+<p class="subtitle">TCP/IP・DNS・HTTP/HTTPS・ポートと通信の基礎</p>
+
+---
+
+<!-- .slide: class="layout-section" -->
+## Web Apps & Cloud
+<p class="subtitle">HTTP/API・3層構成・クラウド責務分界</p>
+
+---
+
+<!-- .slide: class="layout-section" -->
+## Database Basics
+<p class="subtitle">RDB/NoSQL・スキーマ設計・インデックス/トランザクション</p>
+
+---
+
+<!-- .slide: class="layout-section" -->
+## Security Basics
+<p class="subtitle">認証/認可・OWASP Top 10・セキュアコーディング</p>
+
+---
+
+<!-- .slide: class="layout-section" -->
+## Docker
+<p class="subtitle">イメージ/コンテナ/レジストリと基本コマンド</p>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Dockerの学習目標</h2>
+  <ul>
+    <li>コンテナ化のメリットを説明できる</li>
+    <li>イメージとコンテナの違いを区別できる</li>
+    <li>Dockerfileの基本構造を読める</li>
+    <li>基本コマンド（build/run/push）の役割を言える</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>環境差異の課題を解決する</h2>
+  <ul>
+    <li>「自分の環境では動く」問題が起きる</li>
+    <li>開発/本番の差異でバグが出る</li>
+    <li>セットアップが重く属人化しやすい</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>現場の困りごと</strong></p>
+  <ul>
+    <li>OS・ライブラリ・設定が揃わない</li>
+    <li>新メンバーの環境構築に時間がかかる</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コンテナで環境をパッケージ化する</h2>
+  <ul>
+    <li>アプリと依存をまとめて「箱」にする</li>
+    <li>どこでも同じ動作を再現できる</li>
+    <li>VMより軽く、起動が速い</li>
+  </ul>
+</div>
+<div class="diagram">
+  <img src="assets/vm-docker.png" alt="VMとDockerコンテナの比較" style="width: 100%; height: 100%; object-fit: contain;" />
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>イメージとコンテナを区別する</h2>
+  <ul>
+    <li>イメージ = 設計図（テンプレート・読み取り専用）</li>
+    <li>コンテナ = 実行中のインスタンス</li>
+    <li>1つのイメージから複数のコンテナを起動できる</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="image-container" aria-label="イメージとコンテナの関係図"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>レジストリでイメージを共有する</h2>
+  <ul>
+    <li>Docker Hub / ECR / GCR などに保存</li>
+    <li>pull で取得、push で公開</li>
+    <li>タグでバージョン管理（例: app:v1.2）</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>GitHubとの対比</strong></p>
+  <ul>
+    <li>コード → GitHub</li>
+    <li>イメージ → レジストリ</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-code" -->
+<h2>Dockerfileでイメージを定義する</h2>
+<pre><code class="language-docker">FROM python:3.11
+COPY . /app
+RUN pip install -r requirements.txt
+CMD ["python", "main.py"]</code></pre>
+<div class="callout">
+  <p><strong>命令の意味</strong></p>
+  <ul>
+    <li>FROM: ベースイメージを指定</li>
+    <li>COPY: ファイルをイメージ内へ配置</li>
+    <li>RUN: ビルド時にコマンド実行</li>
+    <li>CMD: 起動時に実行する処理</li>
+  </ul>
+  <p class="subtle">上から順にレイヤーが積まれる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>build / run でコンテナを動かす</h2>
+  <ul>
+    <li>docker build -t myapp . → イメージ作成</li>
+    <li>docker run myapp → コンテナ起動</li>
+    <li>-p 8080:80 で公開、-d でバックグラウンド</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>覚えるコマンド</strong></p>
+  <ul>
+    <li>build: イメージを作る</li>
+    <li>run: コンテナを起動する</li>
+    <li>down: コンテナの出力を見る</li>
+    <li>ps: 起動中の一覧を見る</li>
+    <li>stop: コンテナを停止する</li>
+    <li>logs: コンテナの出力を見る</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>push / pull でチームと共有する</h2>
+  <ul>
+    <li>docker push myapp:v1 → レジストリへ送信</li>
+    <li>docker pull myapp:v1 → レジストリから取得</li>
+    <li>CI/CDでビルド→push→本番でpullが基本形</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="registry-flow" aria-label="ローカルとレジストリと本番の流れ"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Composeで複数サービスをまとめる</h2>
+  <ul>
+    <li>アプリ + DB + キャッシュを1ファイルで定義</li>
+    <li>docker compose up で一括起動</li>
+    <li>開発環境の再現性が上がる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>覚えて欲しいコマンド</strong></p>
+  <ul>
+    <li>docker compose up -d: バックグラウンドで起動</li>
+    <li>docker compose build --no-cache: キャッシュなしで再ビルド</li>
+    <li>docker compose down: 停止して関連リソースを削除</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Docker自己チェック</h2>
+  <ul>
+    <li>イメージとコンテナの違いを説明できる</li>
+    <li>Dockerfileの主要命令（FROM/COPY/RUN/CMD）の意味を言える</li>
+    <li>build/run/push/pullの役割を説明できる</li>
+    <li>レジストリの目的を言語化できる</li>
+    <li>覚えて欲しいコマンドを言える</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Testing &amp; Observabilityに進む</p>
 </div>
 
 ---
@@ -637,32 +839,14 @@
 </div>
 <div class="callout">
   <p><strong>次の章へ</strong></p>
-  <p class="subtle">Dockerに進む</p>
+  <p class="subtle">CI/CDに進む</p>
 </div>
-
----
-
-<!-- .slide: class="layout-section" -->
-## Docker
-<p class="subtitle">イメージ/コンテナ/レジストリと基本コマンド</p>
-
----
-
-<!-- .slide: class="layout-section" -->
-## Web Apps & Cloud
-<p class="subtitle">HTTP/API・3層構成・クラウド責務分界</p>
 
 ---
 
 <!-- .slide: class="layout-section" -->
 ## CI/CD
 <p class="subtitle">ワークフロー設計・Secrets・自動デプロイ</p>
-
----
-
-<!-- .slide: class="layout-section" -->
-## Database Basics
-<p class="subtitle">RDB/NoSQL・スキーマ設計・インデックス/トランザクション</p>
 
 ---
 

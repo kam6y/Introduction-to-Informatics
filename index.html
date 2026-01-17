@@ -31,11 +31,13 @@
           <ul>
             <li>Foundations</li>
             <li>Git / GitHub</li>
-            <li>Testing & Observability</li>
-            <li>Docker</li>
+            <li>Networking Basics</li>
             <li>Web Apps & Cloud</li>
-            <li>CI/CD</li>
             <li>Database Basics</li>
+            <li>Security Basics</li>
+            <li>Docker</li>
+            <li>Testing & Observability</li>
+            <li>CI/CD</li>
             <li>Streamlit</li>
             <li>Generative AI Fundamentals</li>
             <li>Generative AI in Practice</li>
@@ -414,6 +416,75 @@
         drawArrow(svg, colors, { x1: boxes[1].x + boxes[1].w, y1: 155, x2: boxes[2].x, y2: 155, label: "apply / pop", markerId });
       };
 
+      const renderImageContainer = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "イメージとコンテナの関係");
+        const imageBox = { x: 70, y: 100, w: 220, h: 120 };
+        const containerA = { x: 420, y: 60, w: 260, h: 80 };
+        const containerB = { x: 420, y: 180, w: 260, h: 80 };
+
+        drawBox(svg, colors, {
+          x: imageBox.x,
+          y: imageBox.y,
+          w: imageBox.w,
+          h: imageBox.h,
+          label: "イメージ",
+          sub: "テンプレート",
+        });
+        drawBox(svg, colors, {
+          x: containerA.x,
+          y: containerA.y,
+          w: containerA.w,
+          h: containerA.h,
+          label: "コンテナA",
+          sub: "実行中",
+        });
+        drawBox(svg, colors, {
+          x: containerB.x,
+          y: containerB.y,
+          w: containerB.w,
+          h: containerB.h,
+          label: "コンテナB",
+          sub: "実行中",
+        });
+
+        const imageX = imageBox.x + imageBox.w;
+        const imageY = imageBox.y + imageBox.h / 2;
+
+        drawArrow(svg, colors, {
+          x1: imageX,
+          y1: imageY - 18,
+          x2: containerA.x,
+          y2: containerA.y + containerA.h / 2,
+          label: "run",
+          markerId,
+        });
+        drawArrow(svg, colors, {
+          x1: imageX,
+          y1: imageY + 18,
+          x2: containerB.x,
+          y2: containerB.y + containerB.h / 2,
+          label: "run",
+          markerId,
+        });
+      };
+
+      const renderRegistryFlow = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "ローカルとレジストリと本番の流れ");
+        const box = { w: 200, h: 90, y: 110 };
+        const gap = 60;
+        const x1 = 40;
+        const x2 = x1 + box.w + gap;
+        const x3 = x2 + box.w + gap;
+
+        drawBox(svg, colors, { x: x1, y: box.y, w: box.w, h: box.h, label: "ローカル/CI", sub: "build" });
+        drawBox(svg, colors, { x: x2, y: box.y, w: box.w, h: box.h, label: "レジストリ", sub: "Docker Hub" });
+        drawBox(svg, colors, { x: x3, y: box.y, w: box.w, h: box.h, label: "本番環境", sub: "pull" });
+
+        drawArrow(svg, colors, { x1: x1 + box.w, y1: 145, x2: x2, y2: 145, label: "push", markerId });
+        drawArrow(svg, colors, { x1: x2, y1: 185, x2: x1 + box.w, y2: 185, label: "pull", markerId });
+        drawArrow(svg, colors, { x1: x2 + box.w, y1: 145, x2: x3, y2: 145, label: "pull", markerId });
+      };
+
       const diagramRenderers = {
         "repo-map": renderRepoMap,
         "branch-merge": renderBranchMerge,
@@ -421,6 +492,8 @@
         "git-conflict": renderConflict,
         "git-revert": renderRevert,
         "git-stash": renderStash,
+        "image-container": renderImageContainer,
+        "registry-flow": renderRegistryFlow,
       };
 
       const renderDiagrams = (slide) => {
