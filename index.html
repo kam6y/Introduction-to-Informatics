@@ -53,7 +53,387 @@
     <script src="https://unpkg.com/reveal.js@5/plugin/markdown/markdown.js"></script>
     <script src="https://unpkg.com/reveal.js@5/plugin/notes/notes.js"></script>
     <script src="https://unpkg.com/reveal.js@5/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script>
+      const DIAGRAM_SIZE = { width: 800, height: 320 };
+
+      const getPalette = () => {
+        const styles = getComputedStyle(document.documentElement);
+        return {
+          accent: styles.getPropertyValue("--accent").trim() || "#0f766e",
+          accent2: styles.getPropertyValue("--accent-2").trim() || "#d97706",
+          accent3: styles.getPropertyValue("--accent-3").trim() || "#2563eb",
+          text: styles.getPropertyValue("--text").trim() || "#0f172a",
+          muted: styles.getPropertyValue("--muted").trim() || "#5f6b7a",
+        };
+      };
+
+      const createSvg = (el, label) => {
+        const { width, height } = DIAGRAM_SIZE;
+        const colors = getPalette();
+        el.innerHTML = "";
+
+        const svg = d3
+          .select(el)
+          .append("svg")
+          .attr("viewBox", `0 0 ${width} ${height}`)
+          .attr("role", "img")
+          .attr("aria-label", label || "");
+
+        const markerId = `arrow-${el.dataset.diagram}`;
+        svg
+          .append("defs")
+          .append("marker")
+          .attr("id", markerId)
+          .attr("viewBox", "0 0 10 10")
+          .attr("refX", 9)
+          .attr("refY", 5)
+          .attr("markerWidth", 8)
+          .attr("markerHeight", 8)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("d", "M 0 0 L 10 5 L 0 10 z")
+          .attr("fill", colors.accent);
+
+        return { svg, colors, markerId };
+      };
+
+      const drawBox = (svg, colors, { x, y, w, h, label, sub, fill, stroke }) => {
+        svg
+          .append("rect")
+          .attr("x", x)
+          .attr("y", y)
+          .attr("width", w)
+          .attr("height", h)
+          .attr("rx", 14)
+          .attr("fill", fill || "rgba(255, 255, 255, 0.9)")
+          .attr("stroke", stroke || colors.accent)
+          .attr("stroke-width", 2);
+
+        svg
+          .append("text")
+          .attr("x", x + w / 2)
+          .attr("y", y + h / 2 - (sub ? 6 : 0))
+          .attr("text-anchor", "middle")
+          .attr("font-size", 18)
+          .attr("font-weight", 600)
+          .text(label);
+
+        if (sub) {
+          svg
+            .append("text")
+            .attr("x", x + w / 2)
+            .attr("y", y + h / 2 + 18)
+            .attr("text-anchor", "middle")
+            .attr("class", "diagram-sub")
+            .text(sub);
+        }
+      };
+
+      const drawArrow = (svg, colors, { x1, y1, x2, y2, label, markerId, dashed }) => {
+        svg
+          .append("line")
+          .attr("x1", x1)
+          .attr("y1", y1)
+          .attr("x2", x2)
+          .attr("y2", y2)
+          .attr("stroke", colors.accent)
+          .attr("stroke-width", 2)
+          .attr("stroke-dasharray", dashed ? "6 4" : null)
+          .attr("marker-end", `url(#${markerId})`);
+
+        if (label) {
+          svg
+            .append("text")
+            .attr("x", (x1 + x2) / 2)
+            .attr("y", (y1 + y2) / 2 - 8)
+            .attr("text-anchor", "middle")
+            .attr("class", "diagram-sub")
+            .text(label);
+        }
+      };
+
+      const drawCommitNode = (svg, colors, x, y, color, label) => {
+        svg
+          .append("circle")
+          .attr("cx", x)
+          .attr("cy", y)
+          .attr("r", 10)
+          .attr("fill", color)
+          .attr("stroke", "#ffffff")
+          .attr("stroke-width", 2);
+
+        if (label) {
+          svg
+            .append("text")
+            .attr("x", x)
+            .attr("y", y + 28)
+            .attr("text-anchor", "middle")
+            .attr("class", "diagram-sub")
+            .text(label);
+        }
+      };
+
+      const renderRepoMap = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "ローカルとリモートの関係");
+        const box = { w: 200, h: 80, y: 100 };
+        const gap = 60;
+        const startX = 40;
+        const x1 = startX;
+        const x2 = x1 + box.w + gap;
+        const x3 = x2 + box.w + gap;
+
+        drawBox(svg, colors, { x: x1, y: box.y, w: box.w, h: box.h, label: "作業ツリー", sub: "edit" });
+        drawBox(svg, colors, { x: x2, y: box.y, w: box.w, h: box.h, label: "ローカル履歴", sub: "commit" });
+        drawBox(svg, colors, { x: x3, y: box.y, w: box.w, h: box.h, label: "GitHub", sub: "remote" });
+
+        drawArrow(svg, colors, { x1: x1 + box.w, y1: 140, x2: x2, y2: 140, label: "commit", markerId });
+        drawArrow(svg, colors, { x1: x2 + box.w, y1: 140, x2: x3, y2: 140, label: "push", markerId });
+        drawArrow(svg, colors, { x1: x3, y1: 180, x2: x2 + box.w, y2: 180, label: "pull", markerId });
+
+        svg
+          .append("text")
+          .attr("x", (x1 + x2 + box.w) / 2)
+          .attr("y", 70)
+          .attr("text-anchor", "middle")
+          .attr("class", "diagram-sub")
+          .text("ローカル");
+        svg
+          .append("text")
+          .attr("x", x3 + box.w / 2)
+          .attr("y", 70)
+          .attr("text-anchor", "middle")
+          .attr("class", "diagram-sub")
+          .text("リモート");
+      };
+
+      const renderBranchMerge = (el) => {
+        const { svg, colors } = createSvg(el, "ブランチとマージの流れ");
+        const mainY = 80;
+        const developY = 160;
+        const featureY = 240;
+        const mainNodes = [140];
+        const developNodes = [220, 360, 540, 660];
+        const featureNodes = [320, 420, 520];
+        const developStartX = developNodes[0];
+        const developMergeX = developNodes[2];
+        const featureStartX = featureNodes[0];
+        const featureEndX = featureNodes[featureNodes.length - 1];
+
+        svg
+          .append("line")
+          .attr("x1", 80)
+          .attr("y1", mainY)
+          .attr("x2", 720)
+          .attr("y2", mainY)
+          .attr("stroke", colors.accent)
+          .attr("stroke-width", 3);
+
+        svg
+          .append("line")
+          .attr("x1", 140)
+          .attr("y1", developY)
+          .attr("x2", 680)
+          .attr("y2", developY)
+          .attr("stroke", colors.accent2)
+          .attr("stroke-width", 3);
+
+        svg
+          .append("line")
+          .attr("x1", featureStartX)
+          .attr("y1", featureY)
+          .attr("x2", featureEndX)
+          .attr("y2", featureY)
+          .attr("stroke", colors.accent3)
+          .attr("stroke-width", 2.5);
+
+        svg
+          .append("line")
+          .attr("x1", mainNodes[0])
+          .attr("y1", mainY)
+          .attr("x2", developStartX)
+          .attr("y2", developY)
+          .attr("stroke", colors.muted)
+          .attr("stroke-width", 2);
+
+        svg
+          .append("path")
+          .attr(
+            "d",
+            `M${developStartX} ${developY} C${developStartX + 30} ${developY + 18} ${featureStartX - 30} ${featureY - 32} ${featureStartX} ${featureY}`
+          )
+          .attr("fill", "none")
+          .attr("stroke", colors.accent3)
+          .attr("stroke-width", 2.5);
+
+        svg
+          .append("path")
+          .attr(
+            "d",
+            `M${featureEndX} ${featureY} C${featureEndX + 20} ${featureY - 10} ${developMergeX - 10} ${developY - 10} ${developMergeX} ${developY}`
+          )
+          .attr("fill", "none")
+          .attr("stroke", colors.accent3)
+          .attr("stroke-width", 2.5);
+
+        mainNodes.forEach((x, index) => {
+          drawCommitNode(svg, colors, x, mainY, colors.accent, index === 0 ? "main" : "");
+        });
+
+        developNodes.forEach((x, index) => {
+          drawCommitNode(svg, colors, x, developY, colors.accent2, index === 0 ? "develop" : "");
+        });
+
+        featureNodes.forEach((x, index) => {
+          drawCommitNode(svg, colors, x, featureY, colors.accent3, index === 0 ? "feature" : "");
+        });
+
+        svg
+          .append("text")
+          .attr("x", developMergeX)
+          .attr("y", developY - 25)
+          .attr("text-anchor", "middle")
+          .attr("class", "diagram-sub")
+          .text("merge");
+      };
+
+      const renderGitFlow = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "Gitの最小フロー");
+        const boxDefs = [
+          { w: 120, label: "GitHub", sub: "remote" },
+          { w: 130, label: "作業ツリー", sub: "edit" },
+          { w: 120, label: "ステージ", sub: "add" },
+          { w: 130, label: "ローカル履歴", sub: "commit" },
+          { w: 120, label: "GitHub", sub: "remote" },
+        ];
+        const gap = 80;
+        const totalWidth = boxDefs.reduce((sum, box) => sum + box.w, 0) + gap * (boxDefs.length - 1);
+        const startX = (DIAGRAM_SIZE.width - totalWidth) / 2;
+        const y = 90;
+        const h = 90;
+        const boxes = [];
+        let cursorX = startX;
+
+        boxDefs.forEach((box) => {
+          drawBox(svg, colors, { x: cursorX, y, w: box.w, h, label: box.label, sub: box.sub });
+          boxes.push({ x: cursorX, w: box.w });
+          cursorX += box.w + gap;
+        });
+
+        drawArrow(svg, colors, { x1: boxes[0].x + boxes[0].w, y1: 135, x2: boxes[1].x, y2: 135, label: "1 pull", markerId });
+        drawArrow(svg, colors, { x1: boxes[1].x + boxes[1].w, y1: 135, x2: boxes[2].x, y2: 135, label: "2 add", markerId });
+        drawArrow(svg, colors, { x1: boxes[2].x + boxes[2].w, y1: 135, x2: boxes[3].x, y2: 135, label: "3 commit", markerId });
+        drawArrow(svg, colors, { x1: boxes[3].x + boxes[3].w, y1: 135, x2: boxes[4].x, y2: 135, label: "4 push", markerId });
+      };
+
+      const renderConflict = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "コンフリクト解決の流れ");
+        drawBox(svg, colors, { x: 80, y: 40, w: 220, h: 80, label: "自分の変更" });
+        drawBox(svg, colors, { x: 500, y: 40, w: 220, h: 80, label: "他人の変更" });
+
+        svg
+          .append("circle")
+          .attr("cx", 400)
+          .attr("cy", 160)
+          .attr("r", 34)
+          .attr("fill", colors.accent2);
+        svg
+          .append("text")
+          .attr("x", 400)
+          .attr("y", 168)
+          .attr("text-anchor", "middle")
+          .attr("font-size", 28)
+          .attr("font-weight", 700)
+          .attr("fill", "#ffffff")
+          .text("!");
+
+        drawArrow(svg, colors, { x1: 300, y1: 120, x2: 370, y2: 150, markerId });
+        drawArrow(svg, colors, { x1: 500, y1: 120, x2: 430, y2: 150, markerId });
+
+        drawBox(svg, colors, { x: 260, y: 230, w: 280, h: 80, label: "解決済みコミット", stroke: colors.accent2 });
+        drawArrow(svg, colors, { x1: 400, y1: 194, x2: 400, y2: 230, markerId });
+      };
+
+      const renderRevert = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "リバートの考え方");
+        const y = 160;
+        svg
+          .append("line")
+          .attr("x1", 100)
+          .attr("y1", y)
+          .attr("x2", 660)
+          .attr("y2", y)
+          .attr("stroke", colors.accent)
+          .attr("stroke-width", 3);
+
+        drawCommitNode(svg, colors, 160, y, colors.accent, "A");
+        drawCommitNode(svg, colors, 300, y, colors.accent, "B");
+        drawCommitNode(svg, colors, 440, y, colors.accent, "C");
+        drawCommitNode(svg, colors, 600, y, colors.accent2, "Revert");
+
+        drawArrow(svg, colors, {
+          x1: 600,
+          y1: 145,
+          x2: 440,
+          y2: 145,
+          markerId,
+          dashed: true,
+        });
+
+        svg
+          .append("text")
+          .attr("x", 600)
+          .attr("y", 120)
+          .attr("text-anchor", "middle")
+          .attr("class", "diagram-sub")
+          .text("変更を打ち消す");
+      };
+
+      const renderStash = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "スタッシュの流れ");
+        const boxDefs = [
+          { w: 220, label: "作業中の変更" },
+          { w: 160, label: "stash", sub: "一時退避" },
+          { w: 220, label: "作業再開" },
+        ];
+        const gap = 80;
+        const totalWidth = boxDefs.reduce((sum, box) => sum + box.w, 0) + gap * (boxDefs.length - 1);
+        const startX = (DIAGRAM_SIZE.width - totalWidth) / 2;
+        const y = 110;
+        const h = 90;
+        const boxes = [];
+        let cursorX = startX;
+
+        boxDefs.forEach((box) => {
+          drawBox(svg, colors, { x: cursorX, y, w: box.w, h, label: box.label, sub: box.sub });
+          boxes.push({ x: cursorX, w: box.w });
+          cursorX += box.w + gap;
+        });
+
+        drawArrow(svg, colors, { x1: boxes[0].x + boxes[0].w, y1: 155, x2: boxes[1].x, y2: 155, label: "stash", markerId });
+        drawArrow(svg, colors, { x1: boxes[1].x + boxes[1].w, y1: 155, x2: boxes[2].x, y2: 155, label: "apply / pop", markerId });
+      };
+
+      const diagramRenderers = {
+        "repo-map": renderRepoMap,
+        "branch-merge": renderBranchMerge,
+        "git-flow": renderGitFlow,
+        "git-conflict": renderConflict,
+        "git-revert": renderRevert,
+        "git-stash": renderStash,
+      };
+
+      const renderDiagrams = (slide) => {
+        const targets = (slide || document).querySelectorAll(".diagram[data-diagram]");
+        targets.forEach((el) => {
+          if (el.dataset.rendered === "true") return;
+          const renderer = diagramRenderers[el.dataset.diagram];
+          if (!renderer) return;
+          renderer(el);
+          el.dataset.rendered = "true";
+        });
+      };
+
       Reveal.initialize({
         hash: true,
         slideNumber: true,
@@ -63,6 +443,14 @@
         transition: "slide",
         backgroundTransition: "fade",
         plugins: [RevealMarkdown, RevealNotes, RevealHighlight],
+      });
+
+      Reveal.on("ready", (event) => {
+        renderDiagrams(event.currentSlide);
+      });
+
+      Reveal.on("slidechanged", (event) => {
+        renderDiagrams(event.currentSlide);
       });
     </script>
   </body>

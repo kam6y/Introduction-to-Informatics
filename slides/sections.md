@@ -246,9 +246,399 @@
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Git / GitHubの学習目標</h2>
+  <ul>
+    <li>GitとGitHubの役割の違いを説明できる</li>
+    <li>ローカル/リモートの関係と同期の流れを説明できる</li>
+    <li>pull→add→commit→pushの最小フローを使える</li>
+    <li>ブランチ/PR/レビューの目的を言語化できる</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>共有フォルダの課題を解決する</h2>
+  <ul>
+    <li>最新版が分からない/上書きが起きる</li>
+    <li>差分が追えず品質が落ちる</li>
+  </ul>
+  <p>だからGitで履歴を追い、GitHubで共有する</p>
+</div>
+<div class="callout">
+  <p><strong>現場の困りごと</strong></p>
+  <ul>
+    <li>誰がいつ修正したか分からない</li>
+    <li>ロールバックの手段がない</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>メリット① 効率と品質が上がる</h2>
+  <ul>
+    <li><strong>Git</strong> : 最新版と履歴が追える</li>
+    <li><strong>Git</strong> : 上書きトラブルを減らす</li>
+    <li><strong>GitHub</strong> : 共同開発機能が豊富</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>効果</strong></p>
+  <ul>
+    <li>属人化が減る</li>
+    <li>レビューし合うことで品質が上がる</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>GitHubのメリット② 無料でプライベート</h2>
+  <ul>
+    <li><strong>GitHub</strong> : 無料で基本機能が使える</li>
+    <li><strong>GitHub</strong> : プライベートリポジトリも無料</li>
+    <li><strong>GitHub</strong> : 学習/小規模チームでも始めやすい</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>使い分け</strong></p>
+  <ul>
+    <li>学習用は公開でOK</li>
+    <li>業務は非公開で運用</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>GitとGitHubの違い</h2>
+  <ul>
+    <li><strong>Git</strong> : 変更履歴を管理する仕組み</li>
+    <li><strong>GitHub</strong> : Gitのリポジトリを共有するサービス</li>
+    <li>履歴とレビューでコードの変遷を追跡し、チーム開発を支える</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>押さえる視点</strong></p>
+  <ul>
+    <li>Gitはローカルでも完結できる</li>
+    <li>GitHubは共同作業を加速させる</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>リポジトリの基本</h2>
+  <ul>
+    <li>コードと履歴を保存する場所</li>
+    <li><strong>ローカル</strong>と<strong>リモート</strong>を分けて持つ</li>
+    <li>同期して履歴を揃える</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="repo-map" aria-label="ローカルとリモートの関係図"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コミットとプッシュの意味</h2>
+  <ul>
+    <li>コミット = 変更点を履歴として固定</li>
+    <li>プッシュ = ローカル履歴をリモートに送る</li>
+    <li>小さく頻繁に残すと追跡しやすい</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>コツ</strong></p>
+  <ul>
+    <li>「理由」が分かるメッセージを付ける</li>
+    <li>変更の単位を揃える</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Gitの最小フローを覚える</h2>
+  <ul>
+    <li>1作業 = 1コミットが目安</li>
+    <li><strong>作業前</strong>にpull、<strong>作業後</strong>にadd→commit→push</li>
+    <li>PRでレビュー→マージ</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="git-flow" aria-label="Gitの最小フロー"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ブランチで並行作業する</h2>
+  <ul>
+    <li>目的ごとに作業の枝を分ける</li>
+    <li>mainは安定、featureは試行</li>
+    <li>まとまったらPR→マージ</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="branch-merge" aria-label="ブランチとマージの流れ"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>プルリクエストで提案する</h2>
+  <ul>
+    <li>変更内容をレビューへ届ける</li>
+    <li>議論・修正・合意の場になる</li>
+    <li>「誰が何を変えたか」が残る</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>チェック観点</strong></p>
+  <ul>
+    <li>仕様に合っているか</li>
+    <li>読みやすいか/壊していないか</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>マージで取り込む</h2>
+  <ul>
+    <li>レビュー後に変更を取り込む</li>
+    <li>競合があれば解消してから統合</li>
+    <li>履歴は一本に集約される</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>実務の習慣</strong></p>
+  <ul>
+    <li>マージ前に最新を取り込む</li>
+    <li>小さく頻繁にPRを出す</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コンフリクトの基本対応</h2>
+  <ul>
+    <li>同じ行を別々に変更すると競合</li>
+    <li><strong>pull/merge/rebase/PR取り込み</strong>時に発覚→差分を確認</li>
+    <li>片方を残して修正→再commit</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="git-conflict" aria-label="コンフリクト解決の流れ"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>スタッシュで一時退避</h2>
+  <ul>
+    <li>作業中の変更を一時退避</li>
+    <li>pull/切り替えの前に整理</li>
+    <li><strong>apply</strong> = 取り出すがスタッシュは残る</li>
+    <li><strong>pop</strong> = 取り出してスタッシュを削除</li>
+    <li>再利用ならapply、1回きりならpop</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="git-stash" aria-label="スタッシュの流れ"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>リバートで取り消す</h2>
+  <ul>
+    <li>変更を打ち消す「新しいコミット」</li>
+    <li>履歴を消さずに戻せる</li>
+    <li>共有ブランチで安全に使える</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="git-revert" aria-label="リバートの考え方"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Git / GitHub自己チェック</h2>
+  <ul>
+    <li>GitとGitHubの違いを一言で説明できる</li>
+    <li>pull/add/commit/pushの順番を図で言える</li>
+    <li>ブランチとPRが必要な理由を説明できる</li>
+    <li>コンフリクト時の基本手順を言える</li>
+    <li>リバートとスタッシュの使い分けを説明できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Testing & Observabilityに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Testing & Observability
-<p class="subtitle">unit/integration/e2e・ログ/メトリクス/トレース</p>
+<p class="subtitle">unit/integration/e2e・ログ/アラート</p>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Testing & Observabilityの学習目標</h2>
+  <ul>
+    <li>unit/integration/e2eの違いを説明できる</li>
+    <li>テストの役割と優先度の考え方を言語化できる</li>
+    <li>ログとアラートの基本を説明できる</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>テストは変更を安全にする</h2>
+  <ul>
+    <li>「壊れていない」を素早く確認する</li>
+    <li>後から直すコストを下げる</li>
+    <li>安心して改善を続けるための土台</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>現場のメリット</strong></p>
+  <ul>
+    <li>リリースが速くなる</li>
+    <li>手戻りが減る</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>テストピラミッドの考え方</h2>
+  <ul>
+    <li>unitを多く、e2eは少なく</li>
+    <li>速い/安いテストを中心にする</li>
+    <li>重要フローだけe2eで守る</li>
+  </ul>
+</div>
+<div class="diagram">
+  <img src="assets/image_2ca15acecf.png" alt="テストピラミッドの図" style="width: 100%; height: 100%; object-fit: contain;" />
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Unit Testで小さく守る</h2>
+  <ul>
+    <li>関数/モジュールの動きを確認</li>
+    <li>失敗原因が特定しやすい</li>
+    <li>依存はモック/スタブで切り分け</li>
+    <li>スタブ: 返り値を固定 / モック: 呼び出し検証</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <p>料金計算・割引ロジック</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Integration Testで境界を守る</h2>
+  <ul>
+    <li>API・DB・外部サービスの連携</li>
+    <li>データ形式や例外の扱いを確認</li>
+    <li>テスト用データ/環境が重要</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <p>予約API → 在庫更新</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>E2E Testで重要フローを守る</h2>
+  <ul>
+    <li>ユーザー操作の流れを通す</li>
+    <li>数は絞って重要フローに集中</li>
+    <li>遅い/壊れやすいので最小限</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <p>ログイン → 購入完了</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ログとアラートの基本</h2>
+  <ul>
+    <li>ログ: 何が起きたかを記録</li>
+    <li>アラート: 「いつもと違う」を通知</li>
+    <li>運用の早期気づきを助ける</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>最低限入れる</strong></p>
+  <ul>
+    <li>時刻・レベル・ID</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ログ設計のコツ</h2>
+  <ul>
+    <li>構造化（JSON）で検索しやすく</li>
+    <li>INFO/WARN/ERRORで分ける</li>
+    <li>user_id / request_id を必ず残す</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <p class="subtle">level=ERROR request_id=... action=checkout</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Testing & Observability自己チェック</h2>
+  <ul>
+    <li>unit/integration/e2eの違いを言える</li>
+    <li>テストピラミッドの意図を説明できる</li>
+    <li>ログに入れるべき情報を挙げられる</li>
+    <li>アラートの役割を説明できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Dockerに進む</p>
+</div>
 
 ---
 
