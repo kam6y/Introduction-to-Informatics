@@ -1221,6 +1221,270 @@
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Security Basicsの学習目標</h2>
+  <ul>
+    <li>認証と認可の違いを説明できる</li>
+    <li>OWASP Top 10の代表的な脆弱性を挙げられる</li>
+    <li>セキュアコーディングの基本原則を言語化できる</li>
+    <li>機密情報の安全な取り扱い方を理解できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>キーワード</strong></p>
+  <ul>
+    <li>誰か・何ができるか</li>
+    <li>脆弱性を知る</li>
+    <li>安全に作る</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>セキュリティの課題を整理する</h2>
+  <ul>
+    <li>不正アクセス・情報漏洩のリスク</li>
+    <li>攻撃者視点で「穴」を探される現実</li>
+    <li>被害は金銭・信用・法的責任に及ぶ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>なぜ学ぶか</strong></p>
+  <p>作る人が知らないと守れない</p>
+  <p class="subtle">セキュリティは後付けが難しい</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>認証と認可を区別する</h2>
+  <ul>
+    <li><strong>認証（Authentication）</strong>: 「誰か」を確認する</li>
+    <li><strong>認可（Authorization）</strong>: 「何ができるか」を制御する</li>
+    <li>両方揃って初めてアクセス制御が成立</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例え</strong></p>
+  <p>認証 = 社員証で本人確認</p>
+  <p>認可 = 入れる部屋が決まる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>認証の実現方法</h2>
+  <ul>
+    <li>パスワード認証の限界（漏洩・使い回し）</li>
+    <li>多要素認証（MFA）で強化</li>
+    <li>OAuth/OIDCで外部委託（Google/GitHub等）</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>MFAの3要素</strong></p>
+  <ul>
+    <li>知識: パスワード</li>
+    <li>所持: スマホ・トークン</li>
+    <li>生体: 指紋・顔</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>トークンベース認証（JWT）</h2>
+  <ul>
+    <li>セッションCookie vs JWT</li>
+    <li>JWTの構造: Header / Payload / Signature</li>
+    <li>ステートレスでスケールしやすい</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>注意点</strong></p>
+  <ul>
+    <li>署名検証を必ず行う</li>
+    <li>有効期限を短く設定</li>
+    <li>機密情報はPayloadに入れない</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>認可の設計</h2>
+  <ul>
+    <li>RBAC（ロールベースアクセス制御）</li>
+    <li>最小権限の原則: 必要最小限だけ許可</li>
+    <li>認可チェックはサーバー側で必ず行う</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>よくある失敗</strong></p>
+  <p>フロントで非表示 → APIは叩ける</p>
+  <p class="subtle">UIで隠すだけでは守れない</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>OWASP Top 10を知る</h2>
+  <ul>
+    <li>Webアプリの代表的な脆弱性リスト</li>
+    <li>業界標準のチェックポイント</li>
+    <li>定期的に更新される（最新動向を追う）</li>
+  </ul>
+  <p class="subtle">参考: <a href="https://www.proactivedefense.jp/blog/blog-training/post-7210">OWASP Top 10 解説</a></p>
+</div>
+<div class="callout">
+  <p><strong>代表的な項目</strong></p>
+  <ul>
+    <li>インジェクション</li>
+    <li>認証の不備</li>
+    <li>機密データの露出</li>
+    <li>XSS / CSRF</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>インジェクション攻撃を防ぐ</h2>
+  <ul>
+    <li>SQLインジェクション: 入力からSQL文を改変</li>
+    <li>コマンドインジェクション: OSコマンドを実行</li>
+    <li>対策: プリペアドステートメント、パラメータ化</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>悪い例</strong></p>
+  <p class="subtle">SELECT * FROM users WHERE id = '$input'</p>
+  <p class="subtle">→ 入力がそのままSQL文に結合される</p>
+  <p class="subtle">→ ' OR '1'='1 で全件取得される</p>
+  <p><strong>良い例</strong></p>
+  <p class="subtle">SELECT * FROM users WHERE id = ?</p>
+  <p class="subtle">→ ?はプレースホルダ（値として扱われる）</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>XSS（クロスサイトスクリプティング）を防ぐ</h2>
+  <ul>
+    <li>悪意あるスクリプトを埋め込まれる攻撃</li>
+    <li>反射型 / 保存型 / DOMベースの3種類</li>
+    <li>対策: 出力エスケープ、CSP</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>CSP（Content Security Policy）</strong></p>
+  <p>許可するスクリプトの出所を制限</p>
+  <p class="subtle">インラインスクリプトを禁止</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>CSRF（クロスサイトリクエストフォージェリ）を防ぐ</h2>
+  <ul>
+    <li>ユーザーの意図しない操作を実行させる</li>
+    <li>ログイン中のセッションを悪用</li>
+    <li>対策: CSRFトークン、SameSite Cookie</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>攻撃の流れ</strong></p>
+  <p>罠サイト訪問 → 勝手にリクエスト送信</p>
+  <p class="subtle">ユーザーは気づかない</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>セキュアコーディングの原則</h2>
+  <ul>
+    <li>入力は全て検証する（信頼しない）</li>
+    <li>出力は必ずエスケープする</li>
+    <li>フェイルセーフ: 失敗時は安全側に倒す</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>心構え</strong></p>
+  <p>外部からの入力は全て「攻撃」かもしれない</p>
+  <p class="subtle">性善説では守れない</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>機密情報の取り扱い</h2>
+  <ul>
+    <li>パスワードは必ずハッシュ化（bcrypt等）</li>
+    <li>APIキー・秘密鍵はコードに書かない</li>
+    <li>環境変数（.envファイル）やシークレットマネージャで管理</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>絶対NG</strong></p>
+  <ul>
+    <li>パスワードの平文保存</li>
+    <li>GitHubにAPIキーをpush</li>
+    <li>ログに機密情報を出力</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ミニケース：ログイン機能のセキュリティ</h2>
+  <ul>
+    <li>パスワードハッシュ + ソルト</li>
+    <li>ログイン試行回数制限（ブルートフォース対策）</li>
+    <li>セッション固定攻撃への対応（ログイン後に再発行）</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>追加で検討</strong></p>
+  <ul>
+    <li>アカウントロック</li>
+    <li>パスワード強度チェック</li>
+    <li>ログイン通知</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Security Basics理解度チェック</h2>
+  <ul>
+    <li>認証と認可の違いを一言で説明できる</li>
+    <li>OWASP Top 10の脆弱性を3つ挙げられる</li>
+    <li>SQLインジェクションの対策を言える</li>
+    <li>パスワードの安全な保存方法を説明できる</li>
+    <li>最小権限の原則を言語化できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Dockerに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Docker
 <p class="subtitle">イメージ/コンテナ/レジストリと基本コマンド</p>
