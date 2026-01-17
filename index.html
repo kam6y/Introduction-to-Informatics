@@ -485,6 +485,74 @@
         drawArrow(svg, colors, { x1: x2 + box.w, y1: 145, x2: x3, y2: 145, label: "pull", markerId });
       };
 
+      const renderTcpIpLayers = (el) => {
+        const { svg, colors } = createSvg(el, "TCP/IPの4層モデル");
+        const layers = [
+          { label: "アプリ層", sub: "HTTP/HTTPS" },
+          { label: "トランスポート層", sub: "TCP/UDP" },
+          { label: "インターネット層", sub: "IP" },
+          { label: "リンク層", sub: "Ethernet/Wi-Fi" },
+        ];
+        const box = { w: 360, h: 56 };
+        const gap = 12;
+        const totalHeight = layers.length * box.h + (layers.length - 1) * gap;
+        const startY = (DIAGRAM_SIZE.height - totalHeight) / 2;
+        const x = (DIAGRAM_SIZE.width - box.w) / 2;
+
+        layers.forEach((layer, index) => {
+          const y = startY + index * (box.h + gap);
+          drawBox(svg, colors, { x, y, w: box.w, h: box.h, label: layer.label, sub: layer.sub });
+        });
+
+        svg
+          .append("text")
+          .attr("x", x - 18)
+          .attr("y", startY + 12)
+          .attr("text-anchor", "end")
+          .attr("class", "diagram-sub")
+          .text("上位");
+        svg
+          .append("text")
+          .attr("x", x - 18)
+          .attr("y", startY + totalHeight - 4)
+          .attr("text-anchor", "end")
+          .attr("class", "diagram-sub")
+          .text("下位");
+      };
+
+      const renderWebFlow = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "Webページ表示の流れ");
+        const boxDefs = [
+          { label: "ブラウザ", sub: "開始" },
+          { label: "DNS", sub: "名前解決" },
+          { label: "TCP", sub: "接続" },
+          { label: "HTTP", sub: "取得" },
+          { label: "表示", sub: "描画" },
+        ];
+        const box = { w: 110, h: 70, y: 120 };
+        const gap = 40;
+        const totalWidth = boxDefs.length * box.w + (boxDefs.length - 1) * gap;
+        const startX = (DIAGRAM_SIZE.width - totalWidth) / 2;
+        const boxes = [];
+
+        boxDefs.forEach((item, index) => {
+          const x = startX + index * (box.w + gap);
+          drawBox(svg, colors, { x, y: box.y, w: box.w, h: box.h, label: item.label, sub: item.sub });
+          boxes.push({ x });
+        });
+
+        boxes.forEach((item, index) => {
+          if (index === boxes.length - 1) return;
+          drawArrow(svg, colors, {
+            x1: item.x + box.w,
+            y1: box.y + box.h / 2,
+            x2: boxes[index + 1].x,
+            y2: box.y + box.h / 2,
+            markerId,
+          });
+        });
+      };
+
       const diagramRenderers = {
         "repo-map": renderRepoMap,
         "branch-merge": renderBranchMerge,
@@ -494,6 +562,8 @@
         "git-stash": renderStash,
         "image-container": renderImageContainer,
         "registry-flow": renderRegistryFlow,
+        "tcpip-layers": renderTcpIpLayers,
+        "web-flow": renderWebFlow,
       };
 
       const renderDiagrams = (slide) => {

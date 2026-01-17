@@ -496,6 +496,210 @@
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Networking Basicsの学習目標</h2>
+  <ul>
+    <li>TCP/IPの4層を列挙できる</li>
+    <li>IPアドレスとポートの役割を説明できる</li>
+    <li>DNSの名前解決の流れを説明できる</li>
+    <li>HTTP/HTTPSの違いを言語化できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>今日のキーワード</strong></p>
+  <ul>
+    <li>層で分ける</li>
+    <li>宛先を特定する</li>
+    <li>安全に届ける</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>通信の課題を解決する</h2>
+  <ul>
+    <li>異なる機器・ソフト間でどう繋がるか</li>
+    <li>宛先をどう特定するか</li>
+    <li>安全にデータを届けるには</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>答え</strong></p>
+  <p>標準化されたプロトコルで解決</p>
+  <p class="subtle">共通ルールが相互接続性を生む</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>TCP/IPで通信を階層化する</h2>
+  <ul>
+    <li>4層モデル（アプリ/トランスポート/インターネット/リンク）</li>
+    <li>役割を分けて責務を明確にする</li>
+    <li>例: HTTPはアプリ層、TCPはトランスポート層</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="tcpip-layers" aria-label="TCP/IPの4層モデル"></div>
+
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>IPアドレスで宛先を決める（インターネット層）</h2>
+  <ul>
+    <li>IPv4 / IPv6の形式を知る</li>
+    <li>グローバルIPはインターネットで到達可能</li>
+    <li>プライベートIPは社内/家庭の内部用</li>
+    <li>NATが内部IPをグローバルIPに変換</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>見分けるコツ</strong></p>
+  <ul>
+    <li>10.x.x.x / 172.16-31.x.x / 192.168.x.x はプライベート</li>
+    <li>それ以外は基本的にグローバル</li>
+  </ul>
+  <p class="subtle">NAT = 1つのグローバルIPを内部で共有</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>TCP/UDPを使い分ける（トランスポート層）</h2>
+  <ul>
+    <li>TCP: 接続してから送る、順序と再送で信頼性を担保</li>
+    <li>UDP: 接続不要で軽量、多少の欠損は許容</li>
+    <li>正確さ重視か、速さ重視かで選ぶ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>よくある例</strong></p>
+  <ul>
+    <li>TCP: HTTPS / SSH / メール</li>
+    <li>UDP: DNS / 音声・動画のリアルタイム配信</li>
+  </ul>
+  <p class="subtle">同じポート番号でもTCPとUDPは別扱い</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ポートでアプリを区別する（トランスポート層）</h2>
+  <ul>
+    <li>1台に複数サービスが動く</li>
+    <li>ポート番号（80/443/22など）でアプリを分ける</li>
+    <li>IPアドレス=住所、ポート=部屋番号</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>よく使うポート</strong></p>
+  <ul>
+    <li>80: HTTP</li>
+    <li>443: HTTPS</li>
+    <li>8000: 開発用サーバー</li>
+    <li>22: SSH</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>DNSで名前を解決する（アプリ層）</h2>
+  <ul>
+    <li>ドメイン名 → IPアドレスに変換する仕組み</li>
+    <li>「住所はどこ?」をDNSが代わりに調べる</li>
+    <li>一度調べた結果はキャッシュで早く返す</li>
+  </ul>
+</div>
+<div class="diagram">
+  <img
+    src="assets/dns-2-2048x1102.png"
+    alt="DNSの名前解決フロー"
+    style="width: 100%; height: 100%; object-fit: contain;"
+  />
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>HTTPでWebを取得する（アプリ層）</h2>
+  <ul>
+    <li>リクエスト（GET/POST）とレスポンス</li>
+    <li>ステータスコードで結果を伝える</li>
+    <li>ヘッダーとボディで情報を分離</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>代表的なコード</strong></p>
+  <ul>
+    <li>200: OK</li>
+    <li>404: Not Found</li>
+    <li>500: Server Error</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>HTTPSで通信を守る（アプリ層）</h2>
+  <ul>
+    <li>TLSで暗号化・改ざん検知</li>
+    <li>証明書で相手を確認する</li>
+    <li>HTTPだけでは盗聴・改ざんリスク</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>TLSが守る3つ</strong></p>
+  <ul>
+    <li>機密性（暗号化）</li>
+    <li>完全性（改ざん検知）</li>
+    <li>認証（なりすまし防止）</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ミニケース：Webページ表示の流れ</h2>
+  <ul>
+    <li>ブラウザ → DNS → TCP接続 → HTTPリクエスト → 表示</li>
+    <li>各層が連携して1つの体験を作る</li>
+    <li>開発者ツールで流れを確認できる</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="web-flow" aria-label="Webページ表示の流れ"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Networking Basics自己チェック</h2>
+  <ul>
+    <li>TCP/IPの4層を列挙できる</li>
+    <li>IPアドレスとポートの違いを説明できる</li>
+    <li>DNSの役割を一言で言える</li>
+    <li>HTTP/HTTPSの違いを説明できる</li>
+    <li>Webページ表示の流れを追える</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Web Apps &amp; Cloudに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Web Apps & Cloud
 <p class="subtitle">HTTP/API・3層構成・クラウド責務分界</p>

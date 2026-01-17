@@ -74,7 +74,6 @@ body::before {
 
 .reveal .slides section {
   width: 100%;
-  max-width: var(--content-width);
   margin: 0 auto;
   padding: var(--space-5) var(--space-4);
   box-sizing: border-box;
@@ -179,7 +178,8 @@ body::before {
   display: grid;
   align-content: center;
   gap: var(--space-4);
-  min-height: 70vh;
+  min-height: 100%;
+  max-width: 100%;
 }
 
 .layout-title h1 {
@@ -194,7 +194,8 @@ body::before {
 .layout-section {
   display: grid;
   align-content: center;
-  min-height: 70vh;
+  min-height: 100%;
+  max-width: 100%;
   padding: var(--space-6) var(--space-5);
   background: linear-gradient(120deg, rgba(15, 118, 110, 0.16), rgba(37, 99, 235, 0.08));
   border-radius: 24px;
@@ -227,7 +228,7 @@ body::before {
 }
 
 .diagram {
-  height: 320px;
+  height: 400px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(15, 23, 42, 0.12);
