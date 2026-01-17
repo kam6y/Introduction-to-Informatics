@@ -1821,6 +1821,201 @@ CMD ["python", "main.py"]</code></pre>
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>CI/CDの学習目標</h2>
+  <ul>
+    <li>CIとCD（Delivery/Deploy）の違いを説明できる</li>
+    <li>ワークフローの基本構成（トリガー/ジョブ/ステップ）を理解できる</li>
+    <li>Secretsの安全な管理方法を言語化できる</li>
+    <li>自動デプロイのメリットと代表的パターンを挙げられる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ゴール</strong></p>
+  <p class="subtle">「安全に早く出す」仕組みを説明できる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>手動デプロイの課題を整理する</h2>
+  <ul>
+    <li>手作業でビルド・デプロイすると時間がかかる</li>
+    <li>ヒューマンエラー（手順漏れ・設定ミス）が起きやすい</li>
+    <li>「誰が・いつ・何を」反映したか追えない</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>結論</strong></p>
+  <p class="subtle">自動化で解決 → 速く・安全に・再現可能に</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>CI/CDとは何か</h2>
+  <ul>
+    <li>CI（継続的インテグレーション）: 変更を頻繁に統合し自動ビルド/テスト</li>
+    <li>CD（継続的デリバリー）: いつでもリリースできる状態を維持</li>
+    <li>CD（継続的デプロイ）: テスト通過後に自動で本番反映</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>まとめ</strong></p>
+  <p class="subtle">CI → ビルド/テスト自動化 / CD → リリース自動化</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>CIで品質を守る</h2>
+  <ul>
+    <li>push/PRのたびに自動でビルド・テストを実行</li>
+    <li>壊れたコードがmainに入るのを防ぐ</li>
+    <li>問題を早期発見し、修正コストを下げる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p class="subtle">小さく頻繁に統合 → コンフリクトも小さく</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>CDでリリースを速くする</h2>
+  <ul>
+    <li>テスト通過後、ステージング/本番へ自動反映</li>
+    <li>手作業を減らし、リリース頻度を上げる</li>
+    <li>ロールバックも自動化で素早く対応</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>効果</strong></p>
+  <p class="subtle">デプロイが怖くなくなる → 改善サイクルが速くなる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>GitHub Actionsの基本</h2>
+  <ul>
+    <li><code>.github/workflows/</code>にYAMLで定義</li>
+    <li>イベント（push/PR/schedule）で自動実行</li>
+    <li>GitHub上でログと結果を確認できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>代表的なCI/CDツール</strong></p>
+  <ul>
+    <li>GitHub Actions</li>
+    <li>GitLab CI</li>
+    <li>CircleCI / Jenkins</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ワークフローの構成要素</h2>
+  <ul>
+    <li>トリガー（on）: いつ実行するか（push / pull_request / schedule）</li>
+    <li>ジョブ（jobs）: 並列/直列で動く処理単位</li>
+    <li>ステップ（steps）: ジョブ内の個々のコマンド</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="workflow-structure" aria-label="ワークフロー構成図"></div>
+
+---
+
+<!-- .slide: class="layout-code" -->
+<h2>YAMLの基本例</h2>
+<pre><code class="language-yaml">on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install
+      - run: npm test</code></pre>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p class="subtle">uses = 再利用可能なAction / run = シェルコマンド</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Secretsで機密情報を守る</h2>
+  <ul>
+    <li>APIキー・トークンをコードに書かない</li>
+    <li>GitHubのSecrets設定で暗号化保存</li>
+    <li><code>${{ secrets.MY_KEY }}</code>で参照</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>絶対NG</strong></p>
+  <p class="subtle">シークレットをログに出力 / コードにハードコード</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>自動デプロイのパターンを選ぶ</h2>
+  <ul>
+    <li><strong>ローリング</strong>: 順次入れ替え（ダウンタイムなし）</li>
+    <li><strong>ブルーグリーン</strong>: 新旧環境を切り替え（即時ロールバック可能）</li>
+    <li><strong>カナリア</strong>: 一部ユーザーに先行リリース</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>判断軸</strong></p>
+  <p class="subtle">リスクを下げながら本番反映</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ミニケース：PRからデプロイまでの流れ</h2>
+  <ul>
+    <li>開発者がPRを作成</li>
+    <li>CI（ビルド・テスト）が自動実行</li>
+    <li>レビュー・承認後にマージ</li>
+    <li>CD（ステージング→本番）が自動実行</li>
+  </ul>
+</div>
+<div class="diagram" data-diagram="cicd-pipeline" aria-label="PRから本番までの流れ"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>CI/CD理解度チェック</h2>
+  <ul>
+    <li>CIとCDの違いを一言で説明できる</li>
+    <li>ワークフローの3要素（トリガー/ジョブ/ステップ）を言える</li>
+    <li>Secretsを安全に扱う方法を説明できる</li>
+    <li>自動デプロイのメリットを挙げられる</li>
+    <li>ブルーグリーン/カナリアの違いを説明できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Streamlitに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Streamlit
 <p class="subtitle">社内ツール/ダッシュボードの最短プロトタイプ</p>

@@ -485,6 +485,70 @@
         drawArrow(svg, colors, { x1: x2 + box.w, y1: 145, x2: x3, y2: 145, label: "pull", markerId });
       };
 
+      const renderWorkflowStructure = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "ワークフロー構成図");
+        const box = { w: 200, h: 100, y: 110 };
+        const gap = 40;
+        const totalWidth = box.w * 3 + gap * 2;
+        const startX = (DIAGRAM_SIZE.width - totalWidth) / 2;
+        const items = [
+          { label: "トリガー", sub: "push / PR", fill: "rgba(37, 99, 235, 0.12)", stroke: "#2563eb" },
+          { label: "ジョブ", sub: "build / test", fill: "rgba(15, 118, 110, 0.12)", stroke: "#0f766e" },
+          { label: "ステップ", sub: "run / uses", fill: "rgba(30, 64, 175, 0.12)", stroke: "#1e40af" },
+        ];
+        const boxes = [];
+
+        items.forEach((item, index) => {
+          const x = startX + index * (box.w + gap);
+          drawBox(svg, colors, { x, y: box.y, w: box.w, h: box.h, label: item.label, sub: item.sub, fill: item.fill, stroke: item.stroke });
+          boxes.push({ x });
+        });
+
+        boxes.forEach((item, index) => {
+          if (index === boxes.length - 1) return;
+          drawArrow(svg, colors, {
+            x1: item.x + box.w,
+            y1: box.y + box.h / 2,
+            x2: boxes[index + 1].x,
+            y2: box.y + box.h / 2,
+            markerId,
+          });
+        });
+      };
+
+      const renderCiCdPipeline = (el) => {
+        const { svg, colors, markerId } = createSvg(el, "PRから本番までの流れ");
+        const box = { w: 120, h: 90, y: 115 };
+        const gap = 25;
+        const steps = [
+          { label: "PR作成", fill: "rgba(37, 99, 235, 0.12)", stroke: "#2563eb" },
+          { label: "CI", sub: "build/test", fill: "rgba(15, 118, 110, 0.12)", stroke: "#0f766e" },
+          { label: "マージ", sub: "review", fill: "rgba(30, 64, 175, 0.12)", stroke: "#1e40af" },
+          { label: "CD", sub: "deploy", fill: "rgba(14, 116, 144, 0.12)", stroke: "#0e7490" },
+          { label: "本番", sub: "release", fill: "rgba(59, 130, 246, 0.12)", stroke: "#3b82f6" },
+        ];
+        const totalWidth = steps.length * box.w + (steps.length - 1) * gap;
+        const startX = (DIAGRAM_SIZE.width - totalWidth) / 2;
+        const boxes = [];
+
+        steps.forEach((step, index) => {
+          const x = startX + index * (box.w + gap);
+          drawBox(svg, colors, { x, y: box.y, w: box.w, h: box.h, label: step.label, sub: step.sub, fill: step.fill, stroke: step.stroke });
+          boxes.push({ x });
+        });
+
+        boxes.forEach((item, index) => {
+          if (index === boxes.length - 1) return;
+          drawArrow(svg, colors, {
+            x1: item.x + box.w,
+            y1: box.y + box.h / 2,
+            x2: boxes[index + 1].x,
+            y2: box.y + box.h / 2,
+            markerId,
+          });
+        });
+      };
+
       const renderTcpIpLayers = (el) => {
         const { svg, colors } = createSvg(el, "TCP/IPの4層モデル");
         const layers = [
@@ -719,6 +783,8 @@
         "git-stash": renderStash,
         "image-container": renderImageContainer,
         "registry-flow": renderRegistryFlow,
+        "workflow-structure": renderWorkflowStructure,
+        "cicd-pipeline": renderCiCdPipeline,
         "tcpip-layers": renderTcpIpLayers,
         "web-flow": renderWebFlow,
         "client-server": renderClientServer,
