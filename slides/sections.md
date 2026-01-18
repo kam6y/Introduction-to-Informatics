@@ -2022,6 +2022,218 @@ jobs:
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Streamlitの学習目標</h2>
+  <ul>
+    <li>Streamlitが解決する課題を説明できる</li>
+    <li>基本的なUIコンポーネントを使える</li>
+    <li>簡易ダッシュボードを構築できる</li>
+    <li>Streamlit Cloudへのデプロイ方法を言語化できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ゴール</strong></p>
+  <p class="subtle">Pythonだけで動くUIを作れるようになる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>社内ツール開発の課題を解決する</h2>
+  <ul>
+    <li>データ可視化やダッシュボードに専門スキルが必要</li>
+    <li>フロントエンド/バックエンドの分離が手間</li>
+    <li>プロトタイプに時間がかかる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>結論</strong></p>
+  <p class="subtle">Streamlitなら「Pythonだけ」で即UI構築</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Streamlitとは</h2>
+  <ul>
+    <li>PythonだけでWebアプリが作れるフレームワーク</li>
+    <li>データサイエンス・社内ツール向け</li>
+    <li>HTML/CSS/JS不要で即プロトタイプ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>特徴</strong></p>
+  <ul>
+    <li>スクリプト感覚で書ける</li>
+    <li>変更すると自動リロード</li>
+    <li>デプロイも簡単</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-code" -->
+<h2>基本構造を理解する</h2>
+<pre><code class="language-python">import streamlit as st
+
+st.title("売上ダッシュボード")
+st.write("データを可視化します")
+
+name = st.text_input("名前を入力")
+st.write(f"こんにちは、{name}さん")</code></pre>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <ul>
+    <li>上から下へ順に実行・描画</li>
+    <li>ウィジェットの戻り値をそのまま使える</li>
+    <li>保存すると自動でリロード（Hot reload）</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ウィジェットで入力を受け取る</h2>
+  <ul>
+    <li><code>st.button()</code>: ボタン</li>
+    <li><code>st.text_input()</code>: テキスト入力</li>
+    <li><code>st.selectbox()</code>: プルダウン選択</li>
+    <li><code>st.slider()</code>: スライダー</li>
+    <li><code>st.date_input()</code>: 日付選択</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>使い方</strong></p>
+  <p class="subtle">戻り値を変数に受けて処理に使う</p>
+  <pre><code class="language-python">age = st.slider("年齢", 0, 100)
+st.write(f"あなたは{age}歳")</code></pre>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>データを表示・可視化する</h2>
+  <ul>
+    <li><code>st.dataframe()</code>: インタラクティブな表</li>
+    <li><code>st.table()</code>: 静的な表</li>
+    <li><code>st.line_chart()</code>: 折れ線グラフ</li>
+    <li><code>st.bar_chart()</code>: 棒グラフ</li>
+    <li><code>st.plotly_chart()</code>: Plotly連携</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <pre><code class="language-python">import pandas as pd
+df = pd.read_csv("sales.csv")
+st.dataframe(df)
+st.line_chart(df["売上"])</code></pre>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>レイアウトを整える</h2>
+  <ul>
+    <li><code>st.columns()</code>: カラム分割</li>
+    <li><code>st.sidebar</code>: サイドバー</li>
+    <li><code>st.expander()</code>: 折りたたみ</li>
+    <li><code>st.tabs()</code>: タブ切り替え</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例: 2カラム</strong></p>
+  <pre><code class="language-python">col1, col2 = st.columns(2)
+col1.metric("売上", "100万円")
+col2.metric("利益", "20万円")</code></pre>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>状態管理（Session State）</h2>
+  <ul>
+    <li>Streamlitは毎回スクリプトを再実行する</li>
+    <li><code>st.session_state</code>でリロード間のデータ保持</li>
+    <li>ボタンクリック回数やフォーム入力の維持に使う</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例: カウンター</strong></p>
+  <pre><code class="language-python">if "count" not in st.session_state:
+    st.session_state.count = 0
+if st.button("カウント"):
+    st.session_state.count += 1
+st.write(st.session_state.count)</code></pre>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>デプロイする</h2>
+  <ul>
+    <li><strong>Streamlit Cloud</strong>: GitHub連携で無料デプロイ</li>
+    <li><strong>Docker</strong>: コンテナ化してCloud Run等へ</li>
+    <li><strong>secrets管理</strong>: <code>st.secrets</code>でAPIキー等を安全に参照</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>Streamlit Cloudの手順</strong></p>
+  <ol>
+    <li>GitHubにpush</li>
+    <li>Streamlit Cloudで連携</li>
+    <li>自動でデプロイ完了</li>
+  </ol>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ミニケース：売上ダッシュボード</h2>
+  <ul>
+    <li>CSVアップロード → データ表示</li>
+    <li>サイドバーで日付フィルタ</li>
+    <li>グラフで売上推移を可視化</li>
+    <li>KPIをメトリクスで表示</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>構成イメージ</strong></p>
+  <ul>
+    <li>サイドバー: フィルタ設定</li>
+    <li>メイン上部: KPIカード</li>
+    <li>メイン下部: グラフ + 表</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Streamlit理解度チェック</h2>
+  <ul>
+    <li>Streamlitが解決する課題を説明できる</li>
+    <li>基本コンポーネント5つを挙げられる</li>
+    <li>Session Stateの役割を言える</li>
+    <li>レイアウト用コンポーネントを2つ挙げられる</li>
+    <li>デプロイ方法を2つ挙げられる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Generative AI Fundamentalsに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Generative AI Fundamentals
 <p class="subtitle">LLMの仕組み・トークン/Attentionまで</p>
