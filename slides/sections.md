@@ -887,9 +887,9 @@
 <div>
   <h2>クラウドの責任共有モデル</h2>
   <ul>
-    <li>IaaS: インフラだけ借りる（OS以上は自己管理）</li>
-    <li>PaaS: ランタイムまで提供（アプリに集中）</li>
-    <li>SaaS: 全て提供（設定だけで利用）</li>
+    <li>IaaS: インフラだけ借りる（OS以上は自己管理） e.g. Compute Engine</li>
+    <li>PaaS: ランタイムまで提供（アプリに集中） e.g. Cloud Run</li>
+    <li>SaaS: 全て提供（設定だけで利用） e.g. sansan</li>
   </ul>
 </div>
 <div class="diagram">
@@ -2237,6 +2237,55 @@ st.write(st.session_state.count)</code></pre>
 <!-- .slide: class="layout-section" -->
 ## Generative AI Fundamentals
 <p class="subtitle">LLMの仕組み・トークン/Attentionまで</p>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>学習目標を確認する</h2>
+  <ul>
+    <li>LLMの基本的な仕組みを理解できる</li>
+    <li>トークンとトークナイズの流れを説明できる</li>
+    <li>Attentionがなぜ重要かを言語化できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ゴール</strong></p>
+  <p class="subtle">「LLMが文章を生成する仕組み」を概念レベルで説明できる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>AI入門には3Blue1Brownの動画がおすすめ</h2>
+  <ul>
+    <li>LLMの全体像と学習/推論の流れ</li>
+    <li>AttentionとTransformerの要点</li>
+    <li>Temperatureの理解</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>視聴リンク</strong></p>
+  <p class="subtle"><a href="https://www.youtube.com/watch?v=y7NQiNER6r4">LLMの仕組み（簡単バージョン）</a></p>
+  <p class="subtle">視聴後、用語を自分の言葉で説明できるか確認する</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>理解度チェック</h2>
+  <ul>
+    <li>トークンとは何かを説明できる</li>
+    <li>Attentionが解決する課題を言える</li>
+    <li>Transformerの基本構造（Attention + Feedforward）を図示できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Generative AI in Practiceに進む</p>
+</div>
 
 ---
 
