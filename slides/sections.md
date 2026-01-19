@@ -1085,20 +1085,25 @@
 <!-- .slide: class="layout-2col" -->
 <div>
   <h2>インデックスで検索を速くする</h2>
+  <p>インデックス = <strong>本の索引</strong>のようなもの</p>
   <ul>
-    <li>索引を作って検索を高速化</li>
-    <li>全件スキャン vs インデックススキャン</li>
-    <li>書き込み時のコストとのトレードオフ</li>
+    <li>本で「API」を探すとき<br/>
+      1ページ目から順に探す → 遅い<br/>
+      巻末の索引で「A」を引く → 速い</li>
+    <li>DBも同じ！特定の列に索引を作ると検索が爆速に</li>
   </ul>
+  <p class="subtle">索引を増やすと本が厚くなるように、データ追加時の負荷は増える</p>
 </div>
 <div class="callout">
-  <p><strong>使いどころ</strong></p>
+  <p><strong>インデックスを作るべき列</strong></p>
   <ul>
-    <li>WHERE句で頻繁に使う列</li>
-    <li>JOINのキー列</li>
-    <li>ORDER BYの対象列</li>
+    <li>WHERE句で頻繁に使う列<br/>
+      <span class="subtle">例: メールアドレスでユーザー検索</span></li>
+    <li>JOINのキー列<br/>
+      <span class="subtle">例: 注文テーブルのuser_id</span></li>
+    <li>ORDER BYの対象列<br/>
+      <span class="subtle">例: 作成日時で並び替え</span></li>
   </ul>
-  <p class="subtle">むやみに作ると更新が遅くなる</p>
 </div>
 
 ---
@@ -1298,20 +1303,76 @@
 
 <!-- .slide: class="layout-2col" -->
 <div>
-  <h2>トークンベース認証（JWT）</h2>
+  <h2>トークンベース認証（JWT）とは</h2>
   <ul>
-    <li>セッションCookie vs JWT</li>
-    <li>JWTの構造: Header / Payload / Signature</li>
-    <li>ステートレスでスケールしやすい</li>
+    <li><strong>JWT</strong> = JSON Web Token（ジョット）</li>
+    <li>ログイン後にサーバーが発行する「通行証」</li>
+    <li>以降のリクエストにこのトークンを添付して「自分」を証明</li>
   </ul>
 </div>
 <div class="callout">
-  <p><strong>注意点</strong></p>
-  <ul>
-    <li>署名検証を必ず行う</li>
-    <li>有効期限を短く設定</li>
-    <li>機密情報はPayloadに入れない</li>
+  <p><strong>イメージ</strong></p>
+  <p>遊園地で入場時にリストバンドをもらい、アトラクションごとに見せる感じ</p>
+  <p class="subtle">毎回入口で身分証を見せなくてOK</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>JWTの構造</h2>
+  <p>3つのパートをドット(.)で連結</p>
+  <pre style="font-size: 0.7em; background: #f5f5f5; padding: 8px; border-radius: 4px;">
+xxxxx.yyyyy.zzzzz
+  ↓      ↓      ↓
+Header.Payload.Signature</pre>
+  <ul style="font-size: 0.9em;">
+    <li><strong>Header</strong>: 種類と署名アルゴリズム</li>
+    <li><strong>Payload</strong>: ユーザーID・有効期限など</li>
+    <li><strong>Signature</strong>: 改ざん検知用の署名</li>
   </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p>PayloadはBase64エンコード（暗号化ではない）</p>
+  <p class="subtle">→ 誰でも中身を読める！</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>JWT認証の流れ</h2>
+  <ol style="font-size: 0.9em;">
+    <li>ユーザーがID/パスワードでログイン</li>
+    <li>サーバーが認証し、JWTを発行</li>
+    <li>クライアントがJWTを保存（localStorage等）</li>
+    <li>APIリクエスト時に <code>Authorization: Bearer &lt;JWT&gt;</code> を付与</li>
+    <li>サーバーは署名を検証してユーザーを特定</li>
+  </ol>
+</div>
+<div class="callout">
+  <p><strong>Bearerとは？</strong></p>
+  <p>「持参人」の意味</p>
+  <p class="subtle">このトークンを持っている人 = 認証済み</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>JWTの注意点</h2>
+  <ul>
+    <li><strong>署名検証は必須</strong>: 検証しないと偽造トークンを受け入れてしまう</li>
+    <li><strong>有効期限は短めに</strong>: 漏洩時の被害を限定（15分〜1時間程度）</li>
+    <li><strong>機密情報はPayloadに入れない</strong>: パスワードやクレカ番号はNG</li>
+    <li><strong>HTTPS必須</strong>: 通信経路での盗聴を防ぐ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>よくある失敗</strong></p>
+  <p>「alg: none」攻撃 → 署名なしを許可してしまう</p>
+  <p class="subtle">ライブラリの設定を確認しよう</p>
 </div>
 
 ---
@@ -1602,8 +1663,8 @@ CMD ["python", "main.py"]</code></pre>
   <p><strong>覚えるコマンド</strong></p>
   <ul>
     <li>build: イメージを作る</li>
+    <li>down: イメージを削除</li>
     <li>run: コンテナを起動する</li>
-    <li>down: コンテナの出力を見る</li>
     <li>ps: 起動中の一覧を見る</li>
     <li>stop: コンテナを停止する</li>
     <li>logs: コンテナの出力を見る</li>
