@@ -4,6 +4,88 @@
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>この講座で到達する地点</h2>
+  <ul>
+    <li>開発プロセスの全体像を説明できる</li>
+    <li>Git/GitHubでチーム開発に参加できる</li>
+    <li>Web/Cloud/DBの仕組みを理解し活用できる</li>
+    <li>AIツールを使った開発ワークフローを実践できる</li>
+    <li><strong>これら知識をベースとしてQiitaやZennの記事が読める←エンジニアにとって自走力は非常に非常に非常に大切</strong></li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>究極的な目標</strong></p>
+  <p class="subtle">生成AIによって細かい部分をあまり覚えなくても良い時代になりつつあります。</p>
+  <p class="subtle">だけど、生成AIの言っていることや変なことを言っていたら指摘できるくらいの知識はやっぱり必要です。</p>
+  <p class="subtle">また、要件定義やそれに基づく技術選定・スケジュール調整はまだまだ人がやらないといけません。</p>
+  <p class="subtle">なのでこのセッションでは、要件定義や開発で人と関わるときに、技術職としてこれらを導けるような人になれることを目標にします。</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>自己評価のポイント</h2>
+  <ul>
+    <li>各セクション末の「自己チェック」で理解を確認</li>
+    <li>概念を自分の言葉で説明できるか</li>
+    <li>これらをベースにした議論が実装時にできるか</li>
+  </ul>
+<div class="callout" style="display: flex; justify-content: center;">
+  <img src="assets/image.png" alt="目標の写真" style="height: 50vh;" />
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>180枚のロードマップ（前半）</h2>
+  <ul>
+    <li><strong>Foundations</strong>: 要件定義・設計・テストの基礎</li>
+    <li><strong>Git / GitHub</strong>: 履歴管理と共同開発</li>
+    <li><strong>Networking</strong>: TCP/IP・DNS・HTTPの仕組み</li>
+    <li><strong>Web & Cloud</strong>: 3層構造とクラウドサービス</li>
+    <li><strong>Database</strong>: SQL・正規化・トランザクション</li>
+    <li><strong>Security</strong>: 認証・暗号・脆弱性対策</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>180枚のロードマップ（後半）</h2>
+  <ul>
+    <li><strong>Docker</strong>: コンテナ仮想化の基本</li>
+    <li><strong>Testing & Observability</strong>: テスト戦略とログ/メトリクス</li>
+    <li><strong>CI/CD</strong>: 自動化パイプライン</li>
+    <li><strong>Streamlit</strong>: Pythonで素早くUI構築</li>
+    <li><strong>Generative AI</strong>: LLMの活用と限界</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>学習のために</h2>
+  <ul>
+    <li>スライドはGitHubやURL（セッション時間のみ）で共有しています。</li>
+    <li>分からないことはいつでも質問してください！（でも自分に聞くよりAIの方が詳しいです泣）</li>
+    <li>このスライドは急造品なのでスライドに書いていないことをしゃべります！適宜メモを！</li>
+    <li>後半はある程度手を動かすコンテンツを入れています</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ルーティーン</strong></p>
+  <p class="subtle">50分に一回を目安に10分の休憩をとります。</p>
+  <p class="subtle">チェックポイントを振り返るなどの時間にしてください！</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Foundations
 <p class="subtitle">要件定義・設計・テストの種類</p>
@@ -25,7 +107,7 @@
 <!-- .slide: class="layout-full-bleed dev-flow-slide" data-background-color="#f4f5f7" -->
 <div class="overlay overlay-solid">
   <h2>開発の流れ（Vモデル）</h2>
-  <p class="subtle">定義・設計とテストの対応関係</p>
+  <p>それぞれの作業時間割合↓</p>
   <ul class="subtle">
     <li><strong>要件定義</strong> : 2割、<strong>開発（設計＋実装）</strong> : 6.5割、<strong>テスト</strong> : 1.5割  ←割合はIPAより</li>
   </ul>
