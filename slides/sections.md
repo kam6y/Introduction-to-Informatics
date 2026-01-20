@@ -2356,6 +2356,218 @@ st.write(st.session_state.count)</code></pre>
 
 ---
 
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Generative AI in Practiceの学習目標</h2>
+  <ul>
+    <li>用途に応じたモデル選定の考え方を説明できる</li>
+    <li>LLMの性能ベンチマークの読み方を理解できる</li>
+    <li>主要なユースケースとその実装パターンを言語化できる</li>
+    <li>Codexの使い方を理解できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ゴール</strong></p>
+  <p class="subtle">実務でLLMを使い分け、効果的に活用できる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>LLMの限界と課題</h2>
+  <ul>
+    <li><strong>ハルシネーション</strong>: 事実と異なる出力を自信満々に生成</li>
+    <li><strong>知識のカットオフ</strong>: 学習データ時点の情報で止まる</li>
+    <li><strong>コンテキスト長の制限</strong>: 長い入力は処理しきれない</li>
+    <li><strong>推論コストの高さ</strong>: 高性能モデルは遅く・高価</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>心構え</strong></p>
+  <p class="subtle">「限界を知った上で使う」が実務の基本</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>主要プロバイダーとモデルの特徴</h2>
+  <ul>
+    <li><strong>OpenAI</strong>: GPT-5.2（Instant/Thinking/Pro）/ GPT-5.2-Codex → 現状最も優れている・実装能力が高い・リミットが長い・教えるのは下手</li>
+    <li><strong>Google</strong>: Gemini 3 Pro / Gemini 3 Flash → 画像認識が強い・コンテキストが非常に長い・リミットが長い・エコシステムが強力</li>
+    <li><strong>Anthropic</strong>: Claude Opus 4.5 / Sonnet 4.5 / Haiku 4.5 → コーディング特化型AI・コードを教えるのが上手い・リミットが短い</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p class="subtle">各社の強み・弱みを把握して選定する</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>モデル選定の考え方</h2>
+  <ul>
+    <li><strong>コーディング・分析</strong>: 各社の最上位モデル（Extra high）を使う（精度が重要）</li>
+    <li>コードレビューはhighでもOK</li>
+    <li><strong>大量処理・要約</strong>: 軽量モデル（Flash系）でコスト抑制</li>
+    <li><strong>判断軸</strong>: コスト × 速度 × 品質のトレードオフ</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>使い分け</strong></p>
+  <ul>
+    <li>高品質必須 → 最上位モデル</li>
+    <li>大量・低コスト → 軽量モデル</li>
+  </ul>
+</div>
+
+---
+
+<div class="layout-2col" style="height: 100%; align-items: stretch;">
+  <div>
+    <h2>各社モデルのベンチマーク比較</h2>
+    <ul>
+      <li><strong>SWE-Bench Pro</strong>: 実務的なソフトウェア修正</li>
+      <li><strong>GPQA Diamond / CharXiv Reasoning</strong>: 専門推論・科学論文読解</li>
+      <li><strong>FrontierMath / AIME 2025</strong>: 数学推論・競技数学</li>
+      <li><strong>ARC-AGI 1/2 / GDPval</strong>: 抽象推論・知識労働タスク</li>
+      <li><strong>注意</strong>: 最大推論設定など条件差で結果が変わる</li>
+    </ul>
+  </div>
+  <div class="diagram" style="height: 70%; align-self: stretch;">
+    <img
+      src="assets/1765546235-9mDYPGaS7woElBRMF0Htgpjy.webp"
+      alt="各社モデルのベンチマーク比較"
+      style="width: 100%; height: 100%; object-fit: contain;"
+    />
+  </div>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>最近のプロンプトエンジニアリング①</h2>
+  <h3>思考型モデル（Thinking）への最適化</h3>
+  <ul>
+    <li>従来のCoT（「Step-by-stepで考えて」）は<strong>不要・逆効果</strong></li>
+    <li>ペルソナ設定（「あなたは専門家です」）も精度を下げる可能性</li>
+    <li><strong>推奨</strong>: シンプルに「目的」と「制約事項」だけを伝える</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>理由</strong></p>
+  <p class="subtle">思考型モデルは自律的に最適な思考を行う</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>最近のプロンプトエンジニアリング②</h2>
+  <h3>会話継続による「精度の劣化」</h3>
+  <ul>
+    <li>最初の入力が最も高精度</li>
+    <li>2ターン以上続くと、過去の出力（誤りを含む）に引っ張られる</li>
+    <li><strong>対策</strong>: 可能な限り1回の入力で完結させる</li>
+    <li>長引いたら「要約→新しいチャットで再開」</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>参考</strong></p>
+  <p class="subtle"><a href="https://arxiv.org/abs/2505.06120">LLMs Get Lost In Multi-Turn Conversation</a></p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>最近のプロンプトエンジニアリング③</h2>
+  <h3>LLMが一度に処理できる「指示の数」</h3>
+  <ul>
+    <li>高性能モデル（o3, Gemini 2.0 Pro）: 100個近い指示でも精度維持</li>
+    <li>軽量モデル: 指示が増えると急激に精度低下</li>
+    <li><strong>対策</strong>: 軽量モデル→指示を分割、高性能モデル→まとめてOK</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>参考</strong></p>
+  <p class="subtle"><a href="https://arxiv.org/abs/2507.11538">How Many Instructions Can LLMs Follow at Once?</a></p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>最近のプロンプトエンジニアリング④</h2>
+  <h3>プロンプト繰り返し手法（非思考型モデル向け）</h3>
+  <ul>
+    <li>プロンプトを2回繰り返すだけで精度向上</li>
+    <li>理由: 1回目がコンテキストとして機能し、2回目で質問意図を理解した状態で処理</li>
+    <li><strong>注意</strong>: 思考型モデル（o1等）では効果薄い</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>参考</strong></p>
+  <p class="subtle"><a href="https://transformer-explainer.dataviz.cnn.io/">TRANSFORMER EXPLAINER</a>でAttentionの仕組みを学べる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Codexの使い方のおすすめ</h2>
+  <ul>
+    <li><strong>OpenAI Codex</strong>: コード生成に特化したAIツール（ChatGPT内で利用可能）</li>
+    <li>タスクを明確に指示する</li>
+    <li>既存コードのコンテキストを与える</li>
+    <li>生成コードは必ずレビュー・テストする</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>鉄則</strong></p>
+  <p class="subtle">生成コードを鵜呑みにしない</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>CodexでSKILLを使ってみる</h2>
+  <ul>
+    <li><strong>SKILL</strong>: Codexのカスタム機能（特定タスクのテンプレート）</li>
+    <li>活用例: コードレビュー、テスト生成、リファクタリング提案</li>
+    <li>定型作業を効率化できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>実践</strong></p>
+  <p class="subtle">実際に試してみよう</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>Generative AI in Practice 理解度チェック</h2>
+  <ul>
+    <li>モデル選定で考慮する3軸（コスト・速度・品質）を説明できる</li>
+    <li>思考型モデルで「不要になったテクニック」を2つ挙げられる</li>
+    <li>会話が長引いた時の対策を言える</li>
+    <li>LLMの限界（ハルシネーション等）を3つ挙げられる</li>
+    <li>Codexの適切な使い方を説明できる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>次の章へ</strong></p>
+  <p class="subtle">Wrap-up / Next Stepsに進む</p>
+</div>
+
+---
+
 <!-- .slide: class="layout-section" -->
 ## Wrap-up / Next Steps
 <p class="subtitle">今日の要点・次に学ぶ順番・実務への接続</p>
