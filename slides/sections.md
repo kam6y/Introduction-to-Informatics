@@ -2336,11 +2336,31 @@ st.write(st.session_state.count)</code></pre>
 
 <!-- .slide: class="layout-2col" -->
 <div>
+  <h2>コラム:言葉のベクトルで遊んでみる</h2>
+  <ul>
+  <li class="subtle"><a href="https://colab.research.google.com/drive/1EHjVX8U6a7jN8h-DgBQVOfQTfyMdtlZY?usp=sharing">言葉のベクトルのColab</a></li>
+  </ul>
+</div>
+  <div class="diagram" style="height: 70%; align-self: stretch;">
+    <img
+      src="assets/newplot2.png"
+      alt="プロット"
+      style="width: 100%; height: 100%; object-fit: contain;"
+    />
+  </div>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
   <h2>理解度チェック</h2>
   <ul>
     <li>トークンとは何かを説明できる</li>
     <li>Attentionが解決する課題を言える</li>
     <li>Transformerの基本構造（Attention + Feedforward）を図示できる</li>
+    <li><strong>クイズ</strong>：何かのテキストを使ってAIと会話するときにテキストの代名詞として適切なのはどれ？</li>
+    <li>①これ　②以下　③以上</li>
   </ul>
 </div>
 <div class="callout">
@@ -2546,6 +2566,24 @@ st.write(st.session_state.count)</code></pre>
 <div class="callout">
   <p><strong>実践</strong></p>
   <p class="subtle">実際に試してみよう</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コラム：RAGについて</h2>
+  <ul>
+    <li>RAG（Retrieval-Augmented Generation）とは、AIが持っていない知識をデータベースから引っ張ってくることでAI自体は知らない知識をあたかも知っているかのように振る舞わさせる技術のこと</li>
+  </ul>
+</div>
+  <div class="diagram" style="height: 60vh;  align-self: stretch;">
+    <img
+      src="assets/Careerport プレゼンテーション資料.png"
+      alt="プロット"
+      style="width: 100%; height: 100%; object-fit: contain;"
+    />
+  </div>
 </div>
 
 ---
