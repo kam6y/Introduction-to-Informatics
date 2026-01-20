@@ -2683,11 +2683,127 @@ st.write(st.session_state.count)</code></pre>
 </div>
 <div class="callout">
   <p><strong>次の章へ</strong></p>
-  <p class="subtle">Wrap-up / Next Stepsに進む</p>
+  <p class="subtle">Wrap-upに進む</p>
 </div>
 
 ---
 
 <!-- .slide: class="layout-section" -->
-## Wrap-up / Next Steps
-<p class="subtitle">今日の要点・次に学ぶ順番・実務への接続</p>
+## Wrap-up
+<p class="subtitle">今日の要点・次に学ぶべきもの</p>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>今回のセッションで学んだこと</h2>
+  <ul>
+    <li><strong>基盤</strong>: 要件定義・設計・テストの流れ（Vモデル）</li>
+    <li><strong>バージョン管理</strong>: Git/GitHubでチーム開発</li>
+    <li><strong>インフラ</strong>: ネットワーク・Web・クラウド・DB</li>
+    <li><strong>品質・安全</strong>: セキュリティ・テスト・CI/CD</li>
+    <li><strong>最新技術</strong>: Docker・Streamlit・生成AI</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>全体像</strong></p>
+  <p class="subtle">「作る→守る→届ける」のサイクルを一周した</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>知識はつながっている</h2>
+  <ul>
+    <li><strong>要件定義</strong>でゴールを決める</li>
+    <li><strong>Git/GitHub</strong>でコードを共有</li>
+    <li><strong>Web/Cloud/DB</strong>でシステムを構築</li>
+    <li><strong>Security/Testing</strong>で品質を担保</li>
+    <li><strong>CI/CD</strong>で自動化・高速化</li>
+    <li><strong>AI</strong>で開発を加速</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p>各技術は単独ではなく、開発フロー全体で連携する</p>
+  <p class="subtle">1つを深く学ぶと、他の理解も深まる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>今日から実践できること</h2>
+  <ul>
+    <li>個人プロジェクトでGit/GitHubを使う</li>
+    <li>Dockerで開発環境を作ってみる</li>
+    <li>Streamlitでミニダッシュボードをデプロイ</li>
+    <li>AIを使ってコードレビュー・学習を加速</li>
+    <li>Qiita/Zennの記事を1つ読んで理解度を確認</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>鉄則</strong></p>
+  <p>インプットだけでなく、手を動かして定着させる</p>
+  <p class="subtle">「分かる」と「できる」は違う</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>次に学ぶべきもの</h2>
+  <ul>
+    <li><strong>深掘り</strong>: 興味を持ったセクションの公式ドキュメント</li>
+    <li><strong>実践</strong>: 小さなアプリを1つ作って公開する</li>
+    <li><strong>チーム開発</strong>: チームプロジェクトに参加</li>
+    <li><strong>継続学習</strong>: 技術ブログ・ポッドキャスト・勉強会</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>おすすめリソース</strong></p>
+  <ul>
+    <li>公式ドキュメント（最も正確）</li>
+    <li>Zenn / Qiita（日本語の実践例）</li>
+    <li>YouTube（ビジュアルで学ぶ）</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>最終チェック：自分の言葉で説明できる？</h2>
+  <ul>
+    <li>Vモデルの対応関係を図示できる</li>
+    <li>Git/GitHubの基本フローを説明できる</li>
+    <li>3層構成とREST APIを説明できる</li>
+    <li>認証と認可の違いを一言で言える</li>
+    <li>CI/CDのメリットを説明できる</li>
+    <li>LLMの限界を3つ挙げられる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>目安</strong></p>
+  <p>7割以上できれば合格</p>
+  <p class="subtle">分からない部分は復習ポイント</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>質問タイム</h2>
+  <ul>
+    <li>今日の内容で分からなかったこと</li>
+    <li>実務でどう使うか具体例が欲しい部分</li>
+    <li>次に何を学べばいいか迷っていること</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>最後に</strong></p>
+  <p>技術は「知る→試す→使う→教える」で身につく</p>
+  <p class="subtle">今日がスタート地点。継続が力になる。</p>
+  <p><strong>お疲れ様でした！</strong></p>
+</div>
