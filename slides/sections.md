@@ -295,10 +295,36 @@
 <div class="callout">
   <p><strong>受入条件（例）</strong></p>
   <ul>
-    <li>変更は前日23:59まで</li>
+    <li>変更/キャンセル/通知/在庫反映ができている</li>
+    <li>変更・キャンセルは前日23:59まで</li>
     <li>キャンセル後は在庫が即時復活</li>
+    <li>通知は30秒以内に送信</li>
   </ul>
-  <p class="subtle">通知は30秒以内に送信</p>
+</div>
+<img class="corner-image-badge" src="assets/dev-flow.svg" alt="開発の流れの要約" />
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コラム：図で企業の種類を分けてみる</h2>
+  <p class="subtle">ビジネス起点 vs 技術起点</p>
+  <p><strong>ITコンサル・独立系</strong>（NRI/アクセンチュアなど）</p>
+  <ul>
+    <li>顧客の課題から構想→企画→要件→設計→開発→テスト→運用まで一気通貫</li>
+    <li>ベンダーフリーで最適構成</li>
+  </ul>
+</div>
+<div>
+  <p><strong>メーカー系SIer</strong>（富士通/NECなど）</p>
+  <ul>
+    <li>技術資産・インフラ起点で提案</li>
+    <li>R&Dや社会基盤に強い</li>
+  </ul>
+  <div class="callout">
+    <p><strong>使い分けの軸</strong></p>
+    <p class="subtle">ビジネス変革の設計か、社会インフラの最適化か</p>
+  </div>
 </div>
 <img class="corner-image-badge" src="assets/dev-flow.svg" alt="開発の流れの要約" />
 
@@ -312,7 +338,7 @@
     <li>要件定義の成果物を3つ言える</li>
     <li>非機能要件を数値で書ける（SLO/RTO/RPO）</li>
     <li>テスト観点（正常/異常/境界）を挙げられる</li>
-    <li>ミニケースの受入条件を2つ作れる</li>
+    <li>ミニケースの受入条件を新たに2つ作れる</li>
   </ul>
 </div>
 <div class="callout">
@@ -1000,22 +1026,6 @@
 
 ---
 
-<!-- .slide: class="layout-2col" -->
-<div>
-  <h2>ミニケース：ECサイトの構成例</h2>
-  <ul>
-    <li>フロント: Next.js（Vercel / AWS Amplify）</li>
-    <li>API: Node.js（Cloud Run / App Runner / AWS Lambda + API Gateway）</li>
-    <li>DB: PostgreSQL（Cloud SQL / RDS / Aurora）</li>
-  </ul>
-</div>
-<div class="callout">
-  <p><strong>ポイント</strong></p>
-  <p>責任分界を意識して選定する</p>
-</div>
-
----
-
 <div class="layout-2col layout-2col-wide">
   <div>
     <h2>実際のECサイト例</h2>
@@ -1042,6 +1052,29 @@
 
 ---
 
+<div class="layout-2col layout-2col-wide">
+  <div>
+    <h2>コラム：BtoB SaaSのテナント分離</h2>
+    <ul>
+      <li>顧客ごとにデータを論理/物理で分離する設計</li>
+      <li>分離レベル: DB別 / スキーマ別 / 行レベル（tenant_id）</li>
+      <li>要件: 監査・越境防止・性能の公平性</li>
+      <li>実務では<strong>コストと運用負荷</strong>のバランスが鍵</li>
+    </ul>
+    <p class="subtle">
+      引用: <a href="https://speakerdeck.com/yaggy/tenantofen-li-shi-noshi-ifen-ketobaransu-saas-engineering-meetup-kitukuohuibento?slide=12">Speaker Deck（テナント分離方式の使い分けとバランス, slide 12）</a>
+    </p>
+  </div>
+  <img
+    class="media-box"
+    src="assets/SaaS_isolation_model.png"
+    alt="SaaSのテナント分離モデル"
+    style="width: 100%; height: 100%; object-fit: contain;"
+  />
+</div>
+
+---
+
 <!-- .slide: class="layout-2col" -->
 <div>
   <h2>理解度チェック</h2>
@@ -1050,6 +1083,7 @@
     <li>REST APIのHTTPメソッド4つを挙げられる</li>
     <li>IaaS/PaaS/SaaSの違いを一言で言える</li>
     <li>ステートレスのメリットを説明できる</li>
+    <li><strong>テスト</strong>：：今から出すアーキテクチャの改善案を考えてください</li>
   </ul>
 </div>
 <div class="callout">
