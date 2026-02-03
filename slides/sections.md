@@ -332,6 +332,32 @@
 
 <!-- .slide: class="layout-2col" -->
 <div>
+  <h2>コラム：開発・ステージング・本番環境</h2>
+  <p class="subtle">同じアプリでも「役割」を分ける</p>
+  <ul>
+    <li><strong>開発</strong>: 変更が多い / デバッグ重視 / ダミーデータ</li>
+    <li><strong>ステージング</strong>: 本番に近い構成で最終確認</li>
+    <li><strong>本番</strong>: 安定性最優先 / 実データ / 監視・バックアップ</li>
+  </ul>
+</div>
+<div>
+  <p><strong>分ける理由</strong></p>
+  <ul>
+    <li>障害や性能劣化を本番から隔離</li>
+    <li>本番相当の検証でリリース判断</li>
+    <li>データ・権限・APIキーを分離</li>
+  </ul>
+  <div class="callout">
+    <p><strong>典型的な流れ</strong></p>
+    <p class="subtle">Dev → Staging → Prod</p>
+  </div>
+</div>
+<img class="corner-image-badge" src="assets/dev-flow.svg" alt="開発の流れの要約" />
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
   <h2>Foundations自己チェック</h2>
   <ul>
     <li>Vモデルの対応関係を図で説明できる</li>
@@ -582,6 +608,31 @@
 
 <!-- .slide: class="layout-2col" -->
 <div>
+  <h2>コラム：2026年の主要言語を実行方式で整理</h2>
+  <p class="subtle"><a href="https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/">主要指標</a>で上位の言語を対象。</p>
+  <p><strong>インタープリター系</strong></p>
+  <ul>
+    <li><strong>Python</strong>: AI/データの標準、学習容易、試作が速い。実行速度・配布・フロント用途は不向き。</li>
+    <li><strong>JavaScript/TypeScript</strong>: Web独占、フルスタック、型安全で大規模に強い。ツールチェーンが複雑で流行変化が激しい。</li>
+  </ul>
+</div>
+<div>
+  <p><strong>コンパイラ系</strong></p>
+  <ul>
+    <li><strong>Go</strong>: 並行処理に強く、単一バイナリでクラウド運用が楽。表現力が控えめ、GUI/モバイルは不得意。</li>
+    <li><strong>Rust</strong>: メモリ安全＋高速、Wasmなど高性能領域に強い。学習難度が高く、ビルド時間が長め。</li>
+    <li><strong>Java/C#</strong>: 企業基盤と資産が厚い（弱み: 起動/メモリ/冗長）</li>
+  </ul>
+  <div class="callout">
+    <p><strong>2026年の選び方（要点）</strong></p>
+    <p>AI/データ: Python、Webのフロントエンド: TypeScript、高速サーバー: Go、基盤/高性能: Rust、企業の基盤システム: Java or C#</p>
+  </div>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
   <h2>Git / GitHub自己チェック</h2>
   <ul>
     <li>GitとGitHubの違いを一言で説明できる</li>
@@ -787,6 +838,27 @@
   </ul>
 </div>
 <div class="diagram" data-diagram="web-flow" aria-label="Webページ表示の流れ"></div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コラム：IPv4 / IPv6の違いと歴史</h2>
+  <ul>
+    <li>IPv4は32bit、IPv6は128bitで、アドレス空間が大きく拡張</li>
+    <li>表現できる数: IPv4は2^32（約43億）、IPv6は2^128（約3.4×10^38）</li>
+    <li>IPv4の普及が先行し、枯渇・NAT利用が一般化</li>
+    <li>IPv6は後発で標準化され、段階的に移行が進む</li>
+    <li>現場ではIPv4/IPv6のデュアルスタック運用が多い</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>実務の視点</strong></p>
+  <ul>
+    <li>IPv6でもDNS・TCP/UDP・HTTPは同じ層構造</li>
+    <li>移行はコストと互換性を見ながら段階的に</li>
+  </ul>
+</div>
 
 ---
 
@@ -1083,7 +1155,7 @@
     <li>REST APIのHTTPメソッド4つを挙げられる</li>
     <li>IaaS/PaaS/SaaSの違いを一言で言える</li>
     <li>ステートレスのメリットを説明できる</li>
-    <li><strong>テスト</strong>：：今から出すアーキテクチャの改善案を考えてください</li>
+    <li><strong>テスト</strong>：：今から出すアプリのテナント分離を考えてください</li>
   </ul>
 </div>
 <div class="callout">
@@ -2655,6 +2727,42 @@ st.write(st.session_state.count)</code></pre>
 
 <!-- .slide: class="layout-2col" -->
 <div>
+  <h2>最近のプロンプトエンジニアリング⑤</h2>
+  <h3>AIの忖度（Sycophancy）</h3>
+  <ul>
+    <li>学習データの性質上、<strong>正解より同調</strong>を優先しがち</li>
+    <li>「Aが好き」→Aを支持、「Bが好き」→Bを支持</li>
+    <li>確証バイアスや誤判断が強化される</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>注意</strong></p>
+  <p class="subtle">特に難しい分野などで顕著になる。数理最適化モデルのコード生成など</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>忖度を防ぐ5つのTips</h2>
+  <ul>
+    <li>意見・所有権を示さない（「私が書いた」等）</li>
+    <li><strong>第三者成果物</strong>として評価させる</li>
+    <li>指摘は断定するか、根拠を貼って検証させる</li>
+    <li>メモリ機能/履歴はオフ、<strong>一時チャット</strong>を使う</li>
+    <li>「機嫌を取るな」など批判的プロンプトを設定</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>例</strong></p>
+  <p class="subtle">「外注先のコードです。5点満点で厳しく評価して」</p>
+  <p class="subtle">重要判断は外部ソースと突き合わせる</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
   <h2>Codexの使い方のおすすめ</h2>
   <ul>
     <li><strong>OpenAI Codex</strong>: コード生成に特化したAIツール（ChatGPT内で利用可能）</li>
@@ -2682,6 +2790,23 @@ st.write(st.session_state.count)</code></pre>
 <div class="callout">
   <p><strong>実践</strong></p>
   <p class="subtle">実際に試してみよう</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>ケース：このスライド資料の作り方</h2>
+  <ul>
+    <li>最初はスライドを書かせずに、各章の構成案を生成させる</li>
+    <li>構成案を元に、各章の草案を作成</li>
+    <li>生成AIにスライドをほとんど書かせたかったのでHTML形式で出力できるプラグイン（CDN）を探す</li>
+    <li>各章の草案を踏まえつつスライドのテンプレート（右半分写真、下半分写真用のスライドなど）を書かせる。</li>
+    <li>テンプレの使い方は別途SKILLでまとめる</li>
+    <li>各章は生成AIで「目的→要点→例→理解度チェック」の草案を作成</li>
+    <li>仕上げは人手で整形（3〜5点の箇条書き、図の差し替え、レイアウト調整）</li>
+    <li>AI出力は必ず<strong>出典確認</strong>と<strong>レビュー</strong>で確定</li>
+  </ul>
 </div>
 
 ---
