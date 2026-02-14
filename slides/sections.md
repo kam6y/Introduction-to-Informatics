@@ -1,6 +1,6 @@
 <!-- .slide: class="layout-section" -->
 ## Intro / Goals
-<p class="subtitle">到達点・評価軸・90枚のロードマップ</p>
+<p class="subtitle">到達点・評価軸・180枚のロードマップ</p>
 
 ---
 
@@ -935,6 +935,26 @@
     <li>機密性（暗号化）</li>
     <li>完全性（改ざん検知）</li>
     <li>認証（なりすまし防止）</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コラム：Firebase Hostingで通信を簡単にする</h2>
+  <ul>
+    <li>HTTPSが標準で有効化され、証明書管理が不要</li>
+    <li>CDNで静的ファイルが近い拠点から配信される</li>
+    <li>独自ドメインを設定して公開URLを固定できる</li>
+    <li>GitHub連携やCLIでデプロイが簡単</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>通信の観点</strong></p>
+  <ul>
+    <li>HTTP/HTTPSの違いがそのまま運用設計に効く</li>
+    <li>キャッシュ制御で表示速度と更新頻度を調整</li>
   </ul>
 </div>
 
