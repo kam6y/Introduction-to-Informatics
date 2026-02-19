@@ -1716,6 +1716,28 @@ Header.Payload.Signature</pre>
 
 <!-- .slide: class="layout-2col" -->
 <div>
+  <h2>コラム: IAP（Identity-Aware Proxy）</h2>
+  <ul>
+    <li>アプリの<strong>手前</strong>（Proxy）で認証・認可を強制する</li>
+    <li>IdP/SSO（ログイン基盤）と連携して、社内ツールや管理画面を手早く保護</li>
+    <li>ネットワーク境界ではなく<strong>ユーザー/デバイス/条件</strong>で許可（Zero Trust）</li>
+    <li>アクセス制御と監査ログを一箇所に寄せられる</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>使いどころ / 注意点</strong></p>
+  <ul>
+    <li>例: Google Cloud IAP / Cloudflare Access</li>
+    <li>向く: ステージング、社内ダッシュボード、DB管理UI</li>
+    <li>注意: IAPは入口。<strong>アプリ側の認可</strong>は別途必要</li>
+    <li>検討: ヘッダ伝搬、WebSocket、IP制限との併用</li>
+  </ul>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
   <h2>OWASP Top 10を知る</h2>
   <ul>
     <li>Webアプリの代表的な脆弱性リスト</li>
@@ -2734,14 +2756,15 @@ st.write(st.session_state.count)</code></pre>
 <div>
   <h2>主要プロバイダーとモデルの特徴</h2>
   <ul>
-    <li><strong>OpenAI</strong>: GPT-5.2（Instant/Thinking/Pro）/ GPT-5.2-Codex → 現状最も優れている・実装能力が高い・リミットが長い・教えるのは下手</li>
-    <li><strong>Google</strong>: Gemini 3 Pro / Gemini 3 Flash → 画像認識が強い・コンテキストが非常に長い・リミットが長い・エコシステムが強力</li>
-    <li><strong>Anthropic</strong>: Claude Opus 4.5 / Sonnet 4.5 / Haiku 4.5 → コーディング特化型AI・コードを教えるのが上手い・リミットが短い</li>
+    <li><strong>OpenAI</strong>: GPT-5.3-Codex / GPT-5.2 / GPT-5 mini・nano（APIで低コスト）<br> → codexはコーディング、全体的にはネット検索の精度が良い（単純に考える時間が長い）のと、論理系も強い、コンテキスト:400k、あんまり欠点はない<br> </li>
+    <li><strong>Google</strong>: Gemini 3 Pro / Gemini 3 Flash <br> → マルチモーダル（画像/動画/音声/PDF）、画像認識のOCRが群を抜いて強い、画像生成が群を抜いて強い、NotebookLMがかなり優秀、コンテキスト:1M、コーディングはあんまり <br> </li>
+    <li><strong>Anthropic</strong>: Claude Opus 4.6（1M beta）/ Sonnet 4.5（200K）/ Haiku 4.5 <br> → 長期タスク/コーディング/エージェントが得意、日本語が最も上手い、説明などの対人能力が高い、エクセルやパワポの作成精度が高い、ワーカー用に特化している、ある程度伸びるとサボる様に設定されてる。 <br> </li>
+    <li><strong>Open-weight</strong>: Llama / Mistral など. <br> → 自社推論・オンプレに向く（コスト/責任/運用設計が増える）、個人的にイけてない <br> </li>
   </ul>
 </div>
 <div class="callout">
   <p><strong>ポイント</strong></p>
-  <p class="subtle">各社の強み・弱みを把握して選定する</p>
+  <p class="subtle">各社の強み・弱みを把握して選定する＋どうせすぐ変わるので最新の情報を入れる様にする（自走力！）</p>
 </div>
 
 ---
@@ -2762,28 +2785,6 @@ st.write(st.session_state.count)</code></pre>
     <li>高品質必須 → 最上位モデル</li>
     <li>大量・低コスト → 軽量モデル</li>
   </ul>
-</div>
-
----
-
-<div class="layout-2col" style="height: 100%; align-items: stretch;">
-  <div>
-    <h2>各社モデルのベンチマーク比較</h2>
-    <ul>
-      <li><strong>SWE-Bench Pro</strong>: 実務的なソフトウェア修正</li>
-      <li><strong>GPQA Diamond / CharXiv Reasoning</strong>: 専門推論・科学論文読解</li>
-      <li><strong>FrontierMath / AIME 2025</strong>: 数学推論・競技数学</li>
-      <li><strong>ARC-AGI 1/2 / GDPval</strong>: 抽象推論・知識労働タスク</li>
-      <li><strong>注意</strong>: 最大推論設定など条件差で結果が変わる</li>
-    </ul>
-  </div>
-  <div class="diagram" style="height: 70%; align-self: stretch;">
-    <img
-      src="assets/1765546235-9mDYPGaS7woElBRMF0Htgpjy.webp"
-      alt="各社モデルのベンチマーク比較"
-      style="width: 100%; height: 100%; object-fit: contain;"
-    />
-  </div>
 </div>
 
 ---
@@ -2893,11 +2894,35 @@ st.write(st.session_state.count)</code></pre>
 
 ---
 
+<div class="layout-2col" style="height: 100%; align-items: stretch;">
+  <div>
+    <h2>各社モデルのベンチマーク比較</h2>
+    <ul>
+      <li><strong>Terminal-Bench 2.0</strong>: ターミナル操作の自動化能力</li>
+      <li><strong>SWE-Bench Verified / Pro</strong>: 実務的なソフトウェアバグ修正</li>
+      <li><strong>OSWorld</strong>: OS上のGUI操作タスクの遂行能力</li>
+      <li><strong>GDPval-AA</strong>: 知識労働タスクの総合評価</li>
+      <li><strong>ARC AGI 2</strong>: 抽象推論・パターン認識</li>
+      <li><strong>BrowseComp</strong>: Webブラウジングによる情報検索</li>
+      <li><strong>BigLaw Bench</strong>: 法律文書の読解・推論</li>
+    </ul>
+  </div>
+  <div class="diagram" style="height: 80%;">
+    <img
+      src="assets/aibench.png"
+      alt="各社モデルのベンチマーク比較"
+      style="width: 100%;"
+    />
+  </div>
+</div>
+
+---
+
 <!-- .slide: class="layout-2col" -->
 <div>
   <h2>Codexの使い方のおすすめ</h2>
   <ul>
-    <li><strong>OpenAI Codex</strong>: コード生成に特化したAIツール（ChatGPT内で利用可能）</li>
+    <li><strong>OpenAI Codex</strong>: コード生成に特化したAIツール（Web/CLI/IDE。ChatGPTプランで利用）</li>
     <li>タスクを明確に指示する</li>
     <li>既存コードのコンテキストを与える</li>
     <li>生成コードは必ずレビュー・テストする</li>
@@ -2906,6 +2931,24 @@ st.write(st.session_state.count)</code></pre>
 <div class="callout">
   <p><strong>鉄則</strong></p>
   <p class="subtle">生成コードを鵜呑みにしない</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>コラム：こんな使い方もできる<br>〜CLAUDE.md / AGENTS.md〜</h2>
+  <ul>
+    <li><strong>CLAUDE.md</strong>: AIへの「運用マニュアル」。作業手順・委譲ルール・品質基準を定義</li>
+    <li><strong>AGENTS.md</strong>: プロジェクトの「仕様書」。構成・規約・変更フローをAIに共有</li>
+    <li>これらをリポジトリに置くだけで、AIが<strong>プロジェクト固有のルール</strong>に従って作業できる</li>
+    <li>Claude Code × Codex の連携例: 設計はClaude Code、実装はCodexに自動委譲</li>
+    <li>人間は「何を作るか」に集中し、「どう作るか」はAIに任せるワークフロー</li>
+  </ul>
+</div>
+<div class="callout">
+  <p><strong>ポイント</strong></p>
+  <p class="subtle">AIに「コンテキスト」を与えるほど、出力の質が上がる。指示書を育てることが資産になる</p>
 </div>
 
 ---
