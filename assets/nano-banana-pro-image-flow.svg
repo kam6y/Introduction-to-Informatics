@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="Image generation workflow diagram">
+  <style>
+    .title { font: 700 22px "Zen Kaku Gothic New","Noto Sans JP","Helvetica Neue",Arial,sans-serif; fill: #0f172a; }
+    .sub { font: 500 14px "Zen Kaku Gothic New","Noto Sans JP","Helvetica Neue",Arial,sans-serif; fill: #5f6b7a; }
+    .boxTitle { font: 700 16px "Zen Kaku Gothic New","Noto Sans JP","Helvetica Neue",Arial,sans-serif; fill: #0f172a; }
+    .boxSub { font: 500 13px "Zen Kaku Gothic New","Noto Sans JP","Helvetica Neue",Arial,sans-serif; fill: #5f6b7a; }
+  </style>
+
+  <text x="40" y="54" class="title">nano banana pro（例）: 画像生成の実務フロー</text>
+  <text x="40" y="84" class="sub">「目的と制約」→「バリエーション」→「選定と微修正」→「納品」の反復</text>
+
+  <!-- Flow boxes -->
+  <rect x="40" y="160" width="160" height="180" rx="18" fill="#ecfdf5" stroke="#0f766e" stroke-width="2"/>
+  <text x="120" y="206" text-anchor="middle" class="boxTitle">仕様</text>
+  <text x="120" y="234" text-anchor="middle" class="boxSub">目的 / 禁止</text>
+  <text x="120" y="258" text-anchor="middle" class="boxSub">画角 / サイズ</text>
+  <text x="120" y="282" text-anchor="middle" class="boxSub">スタイル</text>
+
+  <rect x="230" y="160" width="160" height="180" rx="18" fill="#eef2ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="310" y="206" text-anchor="middle" class="boxTitle">入力</text>
+  <text x="310" y="234" text-anchor="middle" class="boxSub">プロンプト</text>
+  <text x="310" y="258" text-anchor="middle" class="boxSub">参考画像（任意）</text>
+  <text x="310" y="282" text-anchor="middle" class="boxSub">色/要素指定</text>
+
+  <rect x="420" y="160" width="160" height="180" rx="18" fill="#fff7ed" stroke="#d97706" stroke-width="2"/>
+  <text x="500" y="206" text-anchor="middle" class="boxTitle">生成</text>
+  <text x="500" y="234" text-anchor="middle" class="boxSub">複数案を出す</text>
+  <text x="500" y="258" text-anchor="middle" class="boxSub">解像度/比率</text>
+  <text x="500" y="282" text-anchor="middle" class="boxSub">品質を確認</text>
+
+  <rect x="610" y="160" width="160" height="180" rx="18" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+  <text x="690" y="206" text-anchor="middle" class="boxTitle">選定</text>
+  <text x="690" y="234" text-anchor="middle" class="boxSub">意図一致</text>
+  <text x="690" y="258" text-anchor="middle" class="boxSub">可読性</text>
+  <text x="690" y="282" text-anchor="middle" class="boxSub">権利/肖像</text>
+
+  <rect x="740" y="360" width="120" height="110" rx="18" fill="#eef2ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="800" y="402" text-anchor="middle" class="boxTitle">納品</text>
+  <text x="800" y="430" text-anchor="middle" class="boxSub">PNG/SVG</text>
+  <text x="800" y="454" text-anchor="middle" class="boxSub">assets化</text>
+
+  <!-- Arrows -->
+  <line x1="200" y1="250" x2="230" y2="250" stroke="#0f172a" stroke-width="3"/>
+  <text x="215" y="240" text-anchor="middle" class="boxTitle" fill="#0f172a">→</text>
+
+  <line x1="390" y1="250" x2="420" y2="250" stroke="#0f172a" stroke-width="3"/>
+  <text x="405" y="240" text-anchor="middle" class="boxTitle" fill="#0f172a">→</text>
+
+  <line x1="580" y1="250" x2="610" y2="250" stroke="#0f172a" stroke-width="3"/>
+  <text x="595" y="240" text-anchor="middle" class="boxTitle" fill="#0f172a">→</text>
+
+  <!-- Loop back (iteration) -->
+  <path d="M 690 340 C 690 390 520 410 500 340" fill="none" stroke="#64748b" stroke-width="2.5" stroke-dasharray="8 8"/>
+  <text x="595" y="410" text-anchor="middle" class="sub">微修正して再生成（反復）</text>
+
+  <!-- Select to deliver -->
+  <path d="M 770 260 C 830 280 850 320 820 360" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <text x="850" y="320" text-anchor="middle" class="boxTitle" fill="#2563eb">→</text>
+
+  <text x="40" y="470" class="sub">ガードレール例: 著作権/肖像権・個人情報・商標/ロゴ・社内ブランド基準</text>
+</svg>

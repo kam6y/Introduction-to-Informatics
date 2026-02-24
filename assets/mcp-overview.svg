@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="MCP overview diagram">
+  <style>
+    .title { font: 700 22px "Zen Kaku Gothic New","Noto Sans JP","Helvetica Neue",Arial,sans-serif; fill: #0f172a; }
+    .label { font: 600 18px "Zen Kaku Gothic New","Noto Sans JP","Helvetica Neue",Arial,sans-serif; fill: #0f172a; }
+    .sub { font: 500 14px "Zen Kaku Gothic New","Noto Sans JP","Helvetica Neue",Arial,sans-serif; fill: #5f6b7a; }
+    .box { stroke-width: 2; }
+  </style>
+
+  <text x="40" y="54" class="title">MCP（Model Context Protocol）: AIクライアントとツールをつなぐ</text>
+  <text x="40" y="84" class="sub">“どのAIでも同じ作法でツール連携できる” を目指す標準</text>
+
+  <!-- Left: AI client -->
+  <rect x="40" y="150" width="250" height="220" rx="18" fill="#eef2ff" stroke="#2563eb" class="box" />
+  <text x="165" y="210" text-anchor="middle" class="label">AIクライアント</text>
+  <text x="165" y="242" text-anchor="middle" class="sub">IDE / CLI / Chat</text>
+  <text x="165" y="274" text-anchor="middle" class="sub">(例: Codex / Claude Code)</text>
+
+  <!-- Center: MCP -->
+  <rect x="325" y="150" width="250" height="220" rx="18" fill="#ecfdf5" stroke="#0f766e" class="box" />
+  <text x="450" y="210" text-anchor="middle" class="label">MCP</text>
+  <text x="450" y="242" text-anchor="middle" class="sub">共通プロトコル</text>
+  <text x="450" y="274" text-anchor="middle" class="sub">（ツール/データの窓口）</text>
+
+  <!-- Right: MCP servers -->
+  <rect x="610" y="120" width="250" height="280" rx="18" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 8" />
+  <text x="735" y="160" text-anchor="middle" class="label">MCP Servers</text>
+  <text x="735" y="188" text-anchor="middle" class="sub">ツール提供（社内/外部）</text>
+
+  <rect x="635" y="210" width="200" height="52" rx="14" fill="#ffffff" stroke="#94a3b8" class="box" />
+  <text x="735" y="242" text-anchor="middle" class="sub">Docs検索 / ナレッジ</text>
+
+  <rect x="635" y="278" width="200" height="52" rx="14" fill="#ffffff" stroke="#94a3b8" class="box" />
+  <text x="735" y="310" text-anchor="middle" class="sub">Issue / チケット作成</text>
+
+  <rect x="635" y="346" width="200" height="52" rx="14" fill="#ffffff" stroke="#94a3b8" class="box" />
+  <text x="735" y="378" text-anchor="middle" class="sub">DB / ログ参照</text>
+
+  <!-- Connectors -->
+  <line x1="290" y1="260" x2="325" y2="260" stroke="#2563eb" stroke-width="3" />
+  <text x="308" y="250" text-anchor="middle" class="label" fill="#2563eb">↔</text>
+
+  <line x1="575" y1="260" x2="610" y2="260" stroke="#0f766e" stroke-width="3" />
+  <text x="592" y="250" text-anchor="middle" class="label" fill="#0f766e">↔</text>
+
+  <text x="40" y="470" class="sub">運用の要: 権限（最小権限）・監査ログ・コスト/レート制限・確認ステップ</text>
+</svg>

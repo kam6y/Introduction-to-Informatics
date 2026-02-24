@@ -2465,6 +2465,7 @@ jobs:
     <li>PythonだけでWebアプリが作れるフレームワーク</li>
     <li>データサイエンス・社内ツール向け</li>
     <li>HTML/CSS/JS不要で即プロトタイプ</li>
+    <li><a href="https://docs.streamlit.io/develop/api-reference">ドキュメント</a></li>
   </ul>
 </div>
 <div class="callout">
@@ -2585,6 +2586,7 @@ st.write(st.session_state.count)</code></pre>
     <li><strong>Streamlit Cloud</strong>: GitHub連携で無料デプロイ</li>
     <li><strong>Docker</strong>: コンテナ化してCloud Run等へ</li>
     <li><strong>secrets管理</strong>: <code>st.secrets</code>でAPIキー等を安全に参照</li>
+    <li><a href="https://pyscf-app-dft.streamlit.app/">pyscf-app-dft</a></li>
   </ul>
 </div>
 <div class="callout">
@@ -2756,10 +2758,10 @@ st.write(st.session_state.count)</code></pre>
 <div>
   <h2>主要プロバイダーとモデルの特徴</h2>
   <ul>
-    <li><strong>OpenAI</strong>: GPT-5.3-Codex / GPT-5.2 / GPT-5 mini・nano（APIで低コスト）<br> → codexはコーディング、全体的にはネット検索の精度が良い（単純に考える時間が長い）のと、論理系も強い、コンテキスト:400k、あんまり欠点はない<br> </li>
-    <li><strong>Google</strong>: Gemini 3 Pro / Gemini 3 Flash <br> → マルチモーダル（画像/動画/音声/PDF）、画像認識のOCRが群を抜いて強い、画像生成が群を抜いて強い、NotebookLMがかなり優秀、コンテキスト:1M、コーディングはあんまり <br> </li>
-    <li><strong>Anthropic</strong>: Claude Opus 4.6（1M beta）/ Sonnet 4.5（200K）/ Haiku 4.5 <br> → 長期タスク/コーディング/エージェントが得意、日本語が最も上手い、説明などの対人能力が高い、エクセルやパワポの作成精度が高い、ワーカー用に特化している、ある程度伸びるとサボる様に設定されてる。 <br> </li>
-    <li><strong>Open-weight</strong>: Llama / Mistral など. <br> → 自社推論・オンプレに向く（コスト/責任/運用設計が増える）、個人的にイけてない <br> </li>
+    <li><strong>OpenAI</strong>: GPT-5.3-Codex / GPT-5.2 / GPT-5 mini・nano<br> → codexはコーディング、全体的にはネット検索の精度が良い（単純に考える時間が長い）のと、論理系も強い、コンテキスト:400k、あんまり欠点はない<br> </li>
+    <li><strong>Google</strong>: Gemini 3 Pro / Gemini 3 Flash （APIで低コスト）<br> → マルチモーダル（画像/動画/音声/PDF）、画像認識のOCRが群を抜いて強い、画像生成が群を抜いて強い、NotebookLMがかなり優秀、コンテキスト:1M、コーディングはあんまり <br> </li>
+    <li><strong>Anthropic</strong>: Claude Opus 4.6（1M beta）/ Sonnet 4.6（1M beta）/ Haiku 4.5 <br> → 長期タスク/コーディング/エージェント的立ち回りが得意、日本語が最も上手い、説明などの対人能力が高い、エクセルやパワポの作成精度が高い、ワーカー用に特化している、ある程度伸びるとサボる様に設定されてる。 <br> </li>
+    <li><strong>Open-weight</strong>: Llama / Mistral など. <br> → 自社推論・ファインチューニング・オンプレに向く、個人的に研究者じゃなければ触らなくていいと思う <br> </li>
   </ul>
 </div>
 <div class="callout">
@@ -2773,8 +2775,8 @@ st.write(st.session_state.count)</code></pre>
 <div>
   <h2>モデル選定の考え方</h2>
   <ul>
-    <li><strong>コーディング・分析</strong>: 各社の最上位モデル（Extra high）を使う（精度が重要）</li>
-    <li>コードレビューはhighでもOK</li>
+    <li><strong>コーディング・分析</strong>: 各社の最上位モデル（5.3-codex (xhigh), Opus-4.6, Gemini-3-pro(high)）を使う（精度が重要）</li>
+    <li>コードレビューは上位（5.3-codex(high), Sonnet-4.6, Gemini-3-pro(low)）でもOK←でもなるべく最上位</li>
     <li><strong>大量処理・要約</strong>: 軽量モデル（Flash系）でコスト抑制</li>
     <li><strong>判断軸</strong>: コスト × 速度 × 品質のトレードオフ</li>
   </ul>
@@ -2923,6 +2925,7 @@ st.write(st.session_state.count)</code></pre>
   <h2>Codexの使い方のおすすめ</h2>
   <ul>
     <li><strong>OpenAI Codex</strong>: コード生成に特化したAIツール（Web/CLI/IDE。ChatGPTプランで利用）</li>
+    <li>Plan modeは必ず使うようにする</li>
     <li>タスクを明確に指示する</li>
     <li>既存コードのコンテキストを与える</li>
     <li>生成コードは必ずレビュー・テストする</li>
@@ -2965,6 +2968,42 @@ st.write(st.session_state.count)</code></pre>
 <div class="callout">
   <p><strong>実践</strong></p>
   <p class="subtle">実際に試してみよう</p>
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>MCP（Model Context Protocol）: ツール連携の標準</h2>
+  <ul>
+    <li><strong>MCP</strong>: LLMが外部ツール/データに安全にアクセスするための共通プロトコル</li>
+    <li>AIクライアント（IDE/CLI/Chat）↔ <strong>MCP Server</strong>（ツール提供）</li>
+  </ul>
+</div>
+<div class="diagram" style="height: 60vh; align-self: stretch;">
+  <img
+    src="assets/mcp-overview.svg"
+    alt="MCPの全体像"
+    style="width: 100%; height: 100%; object-fit: contain;"
+  />
+</div>
+
+---
+
+<!-- .slide: class="layout-2col" -->
+<div>
+  <h2>nano banana pro: 画像生成ワークフロー</h2>
+  <ul>
+    <li>用途: バナー/図解/挿絵/モック（まずは<strong>ラフ作成</strong>に強い）</li>
+    <li><strong>反復</strong>: バリエーション→選定→微修正（1発で当てにいかない）<a href="https://gemini.google.com/share/665c924bcf2b">参考</a></li>
+  </ul>
+</div>
+<div class="diagram" style="height: 60vh; align-self: stretch;">
+  <img
+    src="assets/nano_banana_pro.png"
+    alt="nano banana proの画像生成フロー"
+    style="width: 100%; height: 100%; object-fit: contain;"
+  />
 </div>
 
 ---
